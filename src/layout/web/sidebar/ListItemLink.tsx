@@ -16,7 +16,7 @@ const ListItemLink = (props: LooseObj) => {
 
   return !!to?(
     <li>
-      <ListItem button component={CustomLink}>
+      <ListItem>
         <ListItemIcon>{icon}</ListItemIcon>
         <ListItemText primary={text} />
       </ListItem>

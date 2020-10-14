@@ -2,17 +2,12 @@ import * as Types from '../types'
 
 import { getColorList } from '@/utils'
 
-interface ListInfo {
-  categoryList: Array<any>,
-  tagList: Array<any>
-}
-
-const defaultState: ListInfo = {
+const defaultState: Types.ListInfo = {
   categoryList: [],
   tagList: []
 }
 
-const TagReducer = (state: ListInfo = defaultState, action: Types.SFAPayload<Types.EmptyAction, any>) => {
+const TagReducer = (state: Types.ListInfo = defaultState, action: Types.SFAPayload<Types.EmptyAction, any>) => {
   const { type, payload } = action
   switch(type) {
     case Types.GET_CATEGORY_LIST:

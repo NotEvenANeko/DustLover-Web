@@ -23,6 +23,16 @@ export interface LoginPayload {
   refreshToken: string
 }
 
+export interface ListInfo {
+  categoryList: Array<any>,
+  tagList: Array<any>
+}
+
+export interface CustomState {
+  user: UserInfo,
+  tag: ListInfo
+}
+
 export const USER_LOGIN = 'USER_LOGIN'
 export type USER_LOGIN = typeof USER_LOGIN
 
