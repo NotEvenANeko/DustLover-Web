@@ -20,7 +20,7 @@ const WebSideBar = (props: LooseObj) => {
   }
 
   return (
-    <div>
+    <>
       <Drawer
         className={`${classes.webSidebar} ${open ? classes.webSidebarOpen : classes.webSidebarClose}`}
         classes={{
@@ -36,7 +36,7 @@ const WebSideBar = (props: LooseObj) => {
           return <ListItemLink {...nav} />})}
         </List>
       </Drawer>
-    </div>
+    </>
   )
 }
 
