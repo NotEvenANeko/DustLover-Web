@@ -3,9 +3,8 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { CustomState } from '@/redux/types'
 import routes from '@/router'
-import './App.css';
+import './App.css'
 
-import WebLayout from './layout/web'
 import axios from '@/utils/axios'
 
 const App = (props: LooseObj) => {
