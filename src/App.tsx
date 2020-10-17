@@ -49,10 +49,10 @@ const App = (props: LooseObj) => {
 
   const children = renderRoutes(routes, '/')
 
-  axios.post('/statistic/client')
+  /*axios.post('/statistic/client')
   axios.post('/statistic/resolution', {
     resolution: window.screen.width + 'x' + window.screen.height
-  })
+  })*/
 
   return (
     <BrowserRouter>

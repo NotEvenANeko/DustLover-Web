@@ -1,0 +1,37 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "lib": [
+      "ES2016"
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "rootDir": "./src",
+    "outDir": "./build",
+    "allowJs": true,
+    "strict": true,
+    "module": "CommonJS",
+    "noImplicitAny": false,
+    "strictNullChecks": true,
+    "alwaysStrict": true,
+    "sourceMap": false,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "pretty": true,
+    "listFiles": true,
+    "listEmittedFiles": true,
+    "watch": true
+  },
+  "include": [
+    "./src/**/*"
+  ],
+  "exclude": [
+    
+  ]
+}

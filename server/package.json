@@ -5,25 +5,31 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "supervisor -w build ./build/index.js",
+    "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "DustLover",
+  "license": "MIT",
   "dependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/bluebird": "^3.5.32",
+    "@types/jsonwebtoken": "^8.5.0",
+    "@types/koa": "^2.11.5",
+    "@types/node": "^14.11.10",
     "bcryptjs": "^2.4.3",
     "bluebird": "^3.7.2",
-    "joi": "^14.3.1",
+    "dayjs": "^1.9.3",
+    "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",
-    "koa": "^2.11.0",
-    "koa-body": "^4.1.1",
-    "koa-bodyparser": "^4.2.1",
-    "koa-cors": "0.0.16",
+    "koa": "^2.13.0",
+    "koa-body": "^4.2.0",
+    "koa-cors": "^0.0.16",
     "koa-json-error": "^3.1.2",
     "koa-logger": "^3.2.1",
-    "koa-router": "^8.0.8",
-    "moment": "^2.24.0",
-    "pm2": "^4.2.3",
-    "sequelize": "^5.21.4",
-    "sqlite3": "^4.1.1"
+    "koa-router": "^9.4.0",
+    "sequelize": "^6.3.5",
+    "sqlite3": "^5.0.0",
+    "supervisor": "^0.12.0",
+    "typescript": "^4.0.3"
   }
 }

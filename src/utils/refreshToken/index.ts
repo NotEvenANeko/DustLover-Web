@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import config from '@/config'
+import config from '@/config.ts'
 
 import { getSessionStorage, saveSessionStorage, removeSessionStorage } from '../storage'
 import { getRefreshToken } from '../index'

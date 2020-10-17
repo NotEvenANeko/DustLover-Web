@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-import config from '@/config'
+import config from '@/config.ts'
 import { getAccessToken } from '..'
 import { refreshToken } from '../refreshToken'
 
@@ -26,7 +26,7 @@ service.interceptors.response.use(async res => {
 }, async err => {
   if(err.response) {
     const { data, status } = err.response
-    if(status != 401) return Promise.reject('Error')
+    if(status !== 401) return Promise.reject('Error')
     if(data.message !== 'Token Error' && data.message !== 'Login Failed' && data.message !== 'No Token') {
 
 

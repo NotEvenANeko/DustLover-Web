@@ -26,8 +26,5 @@ export default [
     icon: <DescriptionOutlined />,
     text: '博客',
     to: '/article'
-  }, {
-    text: '不知道要干什么呢qwq',
-    to: null
   }
 ]

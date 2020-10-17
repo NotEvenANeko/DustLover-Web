@@ -31,9 +31,8 @@ const WebSideBar = (props: LooseObj) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         <List>
-          {NavList.map(nav => {
-            console.log(nav)
-          return <ListItemLink {...nav} />})}
+          {NavList.map((nav, index) => {
+          return <ListItemLink {...nav} key={index} />})}
         </List>
       </Drawer>
     </>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { withRouter, Link } from 'react-router-dom'
 import { Button, Menu, Avatar, MenuItem } from '@material-ui/core'
 import { AccountCircleOutlined } from '@material-ui/icons'
 
@@ -37,6 +38,11 @@ const WebUserInfo = (props: LooseObj) => {
     jumpTo(userId)
   }
 
+  const handleAdmin = () => {
+    handleClose()
+    props.history.push('/admin')
+  }
+
   return (
     <>
       <Button onClick={handleClick}>
@@ -51,7 +57,7 @@ const WebUserInfo = (props: LooseObj) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}>
           <MenuItem onClick={handleUserInfo}>资料</MenuItem>
-          {userRole < 11 && <MenuItem onClick={handleClose}>后台管理</MenuItem>}
+          {userRole < 11 && <MenuItem onClick={handleAdmin}>后台管理</MenuItem>}
           <MenuItem onClick={handleLogout}>登出</MenuItem>
       </Menu>
     </>
@@ -59,5 +65,5 @@ const WebUserInfo = (props: LooseObj) => {
 
 }
 
-export default WebUserInfo
+export default withRouter(WebUserInfo)
 
