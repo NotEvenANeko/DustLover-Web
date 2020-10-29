@@ -1,5 +1,5 @@
 const fs = require('fs')
-const { Sequelize } = require('sequelize')
+const { Sequelize, DataTypes } = require('sequelize')
 const path = require('path')
 
 const { DATABASE } = require('../config')
@@ -9,9 +9,6 @@ const sequelize = new Sequelize({
   storage: DATABASE.PATH
 })
 
-/**
- * 
- */
 const db = {}
 
 /**
@@ -23,20 +20,20 @@ const trim = str => {
 }
 
 fs.readdirSync(__dirname)
-  .filter(file => file !== 'index.js')
+  .filter(file => file !== 'index.js' && file !== 'index.d.ts')
   .forEach(file => {
-    const model = sequelize.import(path.join(__dirname, file))
+    const func = require(__dirname + '/' + file)
+    func(sequelize, DataTypes)
     //console.log(trim(model.name))
-    db[trim(model.name)] = model
+
   })
 
-Object.keys(db)
+Object.keys(sequelize.models)
       .forEach(modelName => {
-        if(db[modelName].associate) {
-          db[modelName].associate(db)
+        if(sequelize.models[modelName].associate) {
+          sequelize.models[modelName].associate(sequelize.models)
         }
       })
 
-db.sequelize = sequelize
-
-module.exports = db
+exports.models = sequelize.models
+exports.sequelize = sequelize

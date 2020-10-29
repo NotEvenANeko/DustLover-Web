@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const Koa = require('koa')
 
-const { os: OSModel, browser: BrowserModel } = require('../models')
+const { os: OSModel, browser: BrowserModel } = require('../models').models
 
 class BrowserOSController {
 
@@ -17,7 +17,7 @@ class BrowserOSController {
     const checkRule = Joi.object({
       'user-agent': Joi.string().required()
     })
-    const validator = Joi.validate(ctx.request.header, checkRule)
+    const validator = checkRule.validate(ctx.request.header)
 
     if(validator) {
       const { 'user-agent': ua } = ctx.request.header

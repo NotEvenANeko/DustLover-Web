@@ -2,9 +2,8 @@ const Joi = require('joi')
 const Koa = require('koa')
 const { 
   question: QuestionModel,
-  answer: AnswerModel, 
-  sequelize 
-} = require('../models')
+  answer: AnswerModel
+} = require('../models').models
 const { PREVIEW_LENGTH } = require('../config')
 
 class QuestionController {
@@ -21,7 +20,7 @@ class QuestionController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 
@@ -59,7 +58,7 @@ class QuestionController {
       pageSize: Joi.number(),
       preview: Joi.number()
     })
-    const validator = Joi.validate(ctx.query, checkRule)
+    const validator = checkRule.validate(ctx.query)
 
     if(validator) {
 
@@ -106,7 +105,7 @@ class QuestionController {
     const checkRule = Joi.object({
       content: Joi.string().required()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 
@@ -133,7 +132,7 @@ class QuestionController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 

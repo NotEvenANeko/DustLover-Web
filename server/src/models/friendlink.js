@@ -1,5 +1,5 @@
+const { Sequelize, DataTypes } = require('sequelize')
 const dayjs = require('dayjs')
-const { Sequelize, DataTypes, Model } = require('sequelize')
 
 /**
  * 
@@ -7,15 +7,23 @@ const { Sequelize, DataTypes, Model } = require('sequelize')
  * @param {DataTypes} dataTypes 
  */
 module.exports = (sequelize, dataTypes) => {
-  const Answer = sequelize.define(
-    'answer',
+  const FriendLink = sequelize.define(
+    'friendlink',
     {
       id: {
         type: dataTypes.INTEGER,
         primaryKey: true,
         autoIncrement: true
       },
-      content: {
+      link: {
+        type: dataTypes.TEXT,
+        allowNull: true
+      },
+      avatarLink: {
+        type: dataTypes.TEXT,
+        allowNull: true
+      },
+      describe: {
         type: dataTypes.TEXT,
         allowNull: false
       },
@@ -38,15 +46,5 @@ module.exports = (sequelize, dataTypes) => {
     }
   )
 
-  /**
-   * 
-   * @param {Model} models 
-   */
-  Answer.associate = models => {
-    Answer.hasOne(models.question, {
-      constraints: false
-    })
-  }
-
-  return Answer
+  return FriendLink
 }

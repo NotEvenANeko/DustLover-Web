@@ -11,4 +11,5 @@ export const reply: ModelAttributes
 export const resolution: ModelAttributes
 export const tag: ModelAttributes
 export const user: ModelAttributes
+export const friendlink: ModelAttributes
 export const sequelize: Sequelize

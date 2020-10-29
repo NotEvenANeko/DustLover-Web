@@ -9,9 +9,8 @@ const {
   tag: TagModel,
   category: CategoryModel,
   comment: CommentModel,
-  reply: ReplyModel,
-  sequelize
-} = require('../models')
+  reply: ReplyModel
+} = require('../models').models
 const { uploadPath, findOrCreateFilePath } = require('../utils/file')
 
 class ArticleController {
@@ -40,7 +39,7 @@ class ArticleController {
       categoryList: Joi.array(),
       tagList: Joi.array()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 
@@ -76,7 +75,7 @@ class ArticleController {
       id: Joi.number().required(),
       type: Joi.number()
     })
-    const validator = Joi.validate({ ...ctx.params, ...ctx.query }, checkRule)
+    const validator = checkRule.validate({ ...ctx.params, ...ctx.query })
     if(validator) {
 
       const id = ctx.params.id
@@ -129,7 +128,7 @@ class ArticleController {
       tag: Joi.string(),
       preview: Joi.number()
     })
-    const validator = Joi.validate(ctx.query, checkRule)
+    const validator = checkRule.validate(ctx.query)
 
     if(validator) {
 
@@ -197,10 +196,10 @@ class ArticleController {
       categories: Joi.array(),
       tags: Joi.array()
     })
-    const validator = Joi.validate({
+    const validator = checkRule.validate({
       articleId: ctx.params.id,
       ...ctx.request.body
-    }, checkRule)
+    })
 
     if(validator) {
 
@@ -232,7 +231,7 @@ class ArticleController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
     if(validator) {
 
       const articleId = ctx.params.id
@@ -259,7 +258,7 @@ class ArticleController {
     const checkRule = Joi.object({
       fileNameList: Joi.array().required()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
     if(validator) {
 
       const { fileNameList } = ctx.request.body
@@ -325,7 +324,7 @@ class ArticleController {
     const checkRule = Joi.object({
       uploadList: Joi.array()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
     if(validator) {
       const { uploadList } = ctx.request.body
       await findOrCreateFilePath(uploadPath)

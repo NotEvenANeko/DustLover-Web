@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const Koa = require('koa')
-const { user: UserModel, sequelize } = require('../models')
+const { user: UserModel } = require('../models').models
 const { Op } = require('sequelize')
 const { createAccessToken, createRefreshToken } = require('../utils/token')
 const { checkInfo, enCrypt } = require('../utils/bcrypt')
@@ -33,7 +33,7 @@ class UserController {
       page: Joi.number(),
       pageSize: Joi.number()
     })
-    const validator = Joi.validate(ctx.query, checkRule)
+    const validator = checkRule.validate(ctx.query)
 
     if(validator) {
 
@@ -68,7 +68,7 @@ class UserController {
       password: Joi.string().required()
     })
 
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
       const { account, password } = ctx.request.body
@@ -116,7 +116,7 @@ class UserController {
       password: Joi.string().required()
     })
 
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 
@@ -164,7 +164,7 @@ class UserController {
       id: Joi.number().required()
     })
 
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 
@@ -194,7 +194,7 @@ class UserController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 

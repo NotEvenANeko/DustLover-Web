@@ -4,9 +4,8 @@ const Koa = require('koa')
 const { 
   comment: CommentModel,
   user: UserModel,
-  reply: ReplyModel,
-  sequelize
-} = require('../models')
+  reply: ReplyModel
+} = require('../models').models
 
 class DiscussController {
   /**
@@ -49,7 +48,7 @@ class DiscussController {
       content: Joi.string().required(),
       commentId: Joi.number()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
       const { articleId, userId, content } = ctx.request.body
@@ -81,7 +80,7 @@ class DiscussController {
     const checkRule = Joi.object({
       commentId: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
       const commentId = ctx.params.commentId
@@ -104,7 +103,7 @@ class DiscussController {
     const checkRule = Joi.object({
       replyId: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
       const replyId = ctx.params.replyId

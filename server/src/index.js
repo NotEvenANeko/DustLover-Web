@@ -5,7 +5,7 @@ const logger = require('koa-logger')
 const koaBody = require('koa-body')
 
 const routerLoader = require('./routers')
-const db = require('./models')
+const { sequelize } = require('./models')
 const authHandler = require('./middleware/authHandle')
 const errorHandler = require('./middleware/errorHandle')
 
@@ -30,7 +30,7 @@ app.use(authHandler)
 routerLoader(app)
 
 app.listen(6060, () => {
-  db.sequelize
+  sequelize
     .sync({ force: false })
     .then(() => {
       console.log('Server listening on localhost:6060')

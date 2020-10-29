@@ -1,7 +1,7 @@
 const Joi = require('joi')
 const Koa = require('koa')
 
-const { resolution: ResolutionModel } = require('../models')
+const { resolution: ResolutionModel } = require('../models').models
 
 class ResolutionController {
 
@@ -17,7 +17,7 @@ class ResolutionController {
     const checkRule = Joi.object({
       resolution: Joi.string().required()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 

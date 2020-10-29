@@ -1,7 +1,8 @@
 const { Op } = require('sequelize')
 const Koa = require('koa')
 
-const { tag: TagModel, category: CategoryModel, sequelize } = require('../models')
+const { tag: TagModel, category: CategoryModel } = require('../models').models
+const sequelize = require('../models').sequelize
 
 class TagController {
 

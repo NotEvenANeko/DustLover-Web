@@ -2,7 +2,7 @@ const Koa = require('koa')
 const fs = require('fs')
 const Joi = require('joi')
 
-const { user: UserModel } = require('../models')
+const { user: UserModel } = require('../models').models
 
 const { avatarPath, findOrCreateFilePath } = require('../utils/file')
 
@@ -21,7 +21,7 @@ class AvatarController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 
@@ -68,7 +68,7 @@ class AvatarController {
       fileName: Joi.string().required(),
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.request.body, checkRule)
+    const validator = checkRule.validate(ctx.request.body)
     if(validator) {
 
       await UserModel.update({ avatar: `${avatarPath}/${fileName}` }, { where: { uid: id } })
@@ -94,7 +94,7 @@ class AvatarController {
     const checkRule = Joi.object({
       id: Joi.number().required()
     })
-    const validator = Joi.validate(ctx.params, checkRule)
+    const validator = checkRule.validate(ctx.params)
 
     if(validator) {
 
