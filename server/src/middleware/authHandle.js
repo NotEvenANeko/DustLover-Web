@@ -12,7 +12,7 @@ const verifyList1 = [
   { regex: /\/account/, required: 'delete' },
   { regex: /\/statistic/, required: 'get'},
   { regex: /\/article/, required: 'put, delete, post' },
-  //{ regex: /\/friend/, required: 'put, delete, put' }
+  { regex: /\/friend/, required: 'put, delete, put' }
 ]
 
 const verifyList2 = [
