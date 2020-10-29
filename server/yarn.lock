@@ -120,6 +120,11 @@
   resolved "https://registry.npmjs.org/@types/http-errors/-/http-errors-1.8.0.tgz#682477dbbbd07cd032731cb3b0e7eaee3d026b69"
   integrity sha512-2aoSC4UUbHDj2uCsCxcG/vRMXey/m17bC7UwitVm5hn22nI8O8Y9iDpA76Orc+DWkQ4zZrOKEshCqR/jSuXAHA==
 
+"@types/joi@^14.3.4":
+  version "14.3.4"
+  resolved "https://registry.npmjs.org/@types/joi/-/joi-14.3.4.tgz#eed1e14cbb07716079c814138831a520a725a1e0"
+  integrity sha512-1TQNDJvIKlgYXGNIABfgFp9y0FziDpuGrd799Q5RcnsDu+krD+eeW/0Fs5PHARvWWFelOhIG2OPCo6KbadBM4A==
+
 "@types/jsonwebtoken@^8.5.0":
   version "8.5.0"
   resolved "https://registry.npmjs.org/@types/jsonwebtoken/-/jsonwebtoken-8.5.0.tgz#2531d5e300803aa63279b232c014acf780c981c5"
@@ -139,10 +144,24 @@
   dependencies:
     "@types/koa" "*"
 
-"@types/koa@*", "@types/koa@^2.11.5":
+"@types/koa@*":
   version "2.11.5"
   resolved "https://registry.npmjs.org/@types/koa/-/koa-2.11.5.tgz#a2b81382bf65d72bdc3bd906abdee259fefdebc2"
   integrity sha512-egP+ceD3+v9PnFW+DLTFO8mt6wa5sDqfGOBIwOAZ61Wzsq4bGZc5kMpJgcCwq7ARGIBfHBY+KkK/1RsMftV/qQ==
+  dependencies:
+    "@types/accepts" "*"
+    "@types/content-disposition" "*"
+    "@types/cookies" "*"
+    "@types/http-assert" "*"
+    "@types/http-errors" "*"
+    "@types/keygrip" "*"
+    "@types/koa-compose" "*"
+    "@types/node" "*"
+
+"@types/koa@^2.11.6":
+  version "2.11.6"
+  resolved "https://registry.npmjs.org/@types/koa/-/koa-2.11.6.tgz#b7030caa6b44af801c2aea13ba77d74aff7484d5"
+  integrity sha512-BhyrMj06eQkk04C97fovEDQMpLpd2IxCB4ecitaXwOKGq78Wi2tooaDOWOFGajPk8IkQOAtMppApgSVkYe1F/A==
   dependencies:
     "@types/accepts" "*"
     "@types/content-disposition" "*"
@@ -180,6 +199,11 @@
   dependencies:
     "@types/express-serve-static-core" "*"
     "@types/mime" "*"
+
+"@types/validator@^13.1.0":
+  version "13.1.0"
+  resolved "https://registry.npmjs.org/@types/validator/-/validator-13.1.0.tgz#3d776127dbce7dd31fc06f86d3428b072e631eba"
+  integrity sha512-gHUHI6pJaANIO2r6WcbT7+WMgbL9GZooR4tWpuBOETpDIqFNxwaJluE+6rj6VGYe8k6OkfhbHz2Fkm8kl06Igw==
 
 abbrev@1:
   version "1.1.1"
@@ -1585,11 +1609,6 @@ type-is@^1.6.14, type-is@^1.6.16:
   dependencies:
     media-typer "0.3.0"
     mime-types "~2.1.24"
-
-typescript@^4.0.3:
-  version "4.0.3"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-4.0.3.tgz#153bbd468ef07725c1df9c77e8b453f8d36abba5"
-  integrity sha512-tEu6DGxGgRJPb/mVPIZ48e69xCn2yRmCgYmDugAVwmJ6o+0u1RI18eO7E7WBTLYLaEVVOhwQmcdhQHweux/WPg==
 
 unpipe@1.0.0:
   version "1.0.0"

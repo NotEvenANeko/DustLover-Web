@@ -16,6 +16,7 @@ node_modules
 /server/avatar
 /server/upload
 /server/*.sqlite3
+/server/docs
 
 # misc
 .DS_Store
