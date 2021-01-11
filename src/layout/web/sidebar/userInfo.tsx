@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import { Button, Menu, Avatar, MenuItem, ButtonGroup } from '@material-ui/core'
 import { AccountCircleOutlined } from '@material-ui/icons'
 
 import { CustomState } from '@/redux/types'
 import { userLogout } from '@/redux/user/actions'
+import useBus from '@/hooks/useBus'
 
 const WebUserInfo = (props: LooseObj) => {
 
+  const bus = useBus()
   const dispatch = useDispatch()
   const userInfo = useSelector((state: CustomState) => state.user)
   const { userId, userRole, username } = userInfo
@@ -30,7 +32,7 @@ const WebUserInfo = (props: LooseObj) => {
 
   const handleLogout = () => {
     handleClose()
-    dispatch(userLogout())
+    dispatch(userLogout(bus))
   }
 
   const handleUserInfo = () => {

@@ -10,6 +10,6 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     registerInput: {
       minWidth: '100px',
-      margin: theme.spacing(1)
+      margin: theme.spacing(2)
     }
   }))

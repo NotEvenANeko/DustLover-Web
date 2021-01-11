@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { CustomState } from '@/redux/types'
 import routes from '@/router'
+import SnackBarCustom from '@/components/snackbar'
 import './App.css'
 
 import axios from '@/utils/axios'
@@ -57,6 +58,7 @@ const App = (props: LooseObj) => {
   return (
     <BrowserRouter>
       {children}
+      <SnackBarCustom />
     </BrowserRouter>
   )
 }
