@@ -1,7 +1,9 @@
 import React from 'react'
+import { useStyles } from './styles'
 
 const AppMain = (props: LooseObj) => {
-  return <div className="web-app-main">{props.children}</div>
+  const classes = useStyles()
+  return <div className={classes.webContent}>{props.children}</div>
 }
 
 export default AppMain

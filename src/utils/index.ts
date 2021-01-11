@@ -104,3 +104,15 @@ export const getRefreshToken = () => {
 
   return token
 }
+
+export const debounce = (func: (...args: any[]) => any, delay: number) => {
+  let timeout: NodeJS.Timeout
+  return (...args: any[]) => {
+    clearTimeout(timeout)
+    timeout = setTimeout(() => {
+      func(...args)
+    }, delay)
+  }
+}
+
+  

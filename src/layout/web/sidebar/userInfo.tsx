@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { withRouter, Link } from 'react-router-dom'
-import { Button, Menu, Avatar, MenuItem } from '@material-ui/core'
+import { Button, Menu, Avatar, MenuItem, ButtonGroup } from '@material-ui/core'
 import { AccountCircleOutlined } from '@material-ui/icons'
 
 import { CustomState } from '@/redux/types'
@@ -38,12 +38,20 @@ const WebUserInfo = (props: LooseObj) => {
     jumpTo(userId)
   }
 
+  const handleLogin = () => {
+    props.history.push('/login')
+  }
+
+  const handleRegister = () => {
+    props.history.push('/register')
+  }
+
   const handleAdmin = () => {
     handleClose()
     props.history.push('/admin')
   }
 
-  return (
+  return username ? (
     <>
       <Button onClick={handleClick}>
         <Avatar>
@@ -57,11 +65,17 @@ const WebUserInfo = (props: LooseObj) => {
         open={Boolean(anchorEl)}
         onClose={handleClose}>
           <MenuItem onClick={handleUserInfo}>资料</MenuItem>
-          {userRole < 11 && <MenuItem onClick={handleAdmin}>后台管理</MenuItem>}
+          {userRole < 1 && <MenuItem onClick={handleAdmin}>后台管理</MenuItem>}
           <MenuItem onClick={handleLogout}>登出</MenuItem>
       </Menu>
-    </>
-  )
+    </>) : (
+      <>
+        <ButtonGroup orientation="vertical" variant="text">
+          <Button onClick={handleLogin}>登录</Button>
+          <Button onClick={handleRegister}>注册</Button>
+        </ButtonGroup>
+      </>
+    )
 
 }
 
