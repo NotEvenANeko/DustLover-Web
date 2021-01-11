@@ -4,7 +4,7 @@ import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
 
 const ListItemLink = (props: LooseObj) => {
 
-  const { icon, text, to = null } = props
+  const { icon, text, to = null, className } = props
 
   const CustomLink = React.useMemo(
     () => 
@@ -15,12 +15,10 @@ const ListItemLink = (props: LooseObj) => {
   )
 
   return !!to?(
-    <li>
-      <ListItem button component={CustomLink}>
-        <ListItemIcon>{icon}</ListItemIcon>
-        <ListItemText primary={text} />
-      </ListItem>
-    </li>
+    <ListItem button component={CustomLink} className={className}>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText primary={text} />
+    </ListItem>
   ):(
     <ListItem>
         <ListItemIcon>{icon}</ListItemIcon>

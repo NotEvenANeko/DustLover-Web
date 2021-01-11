@@ -3,11 +3,14 @@ import { Drawer, List } from '@material-ui/core'
 
 import NavList from './navList'
 import ListItemLink from './ListItemLink'
+import UserInfo from './userInfo'
 
 import { useStyles } from './styles'
+import { useLocation } from 'react-router-dom'
 
 const WebSideBar = (props: LooseObj) => {
 
+  const location = useLocation()
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 
@@ -30,10 +33,11 @@ const WebSideBar = (props: LooseObj) => {
         anchor="left"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
-        <List>
+        <List className={`${classes.sidebarList}`}>
           {NavList.map((nav, index) => {
-          return <ListItemLink {...nav} key={index} />})}
+          return <ListItemLink {...nav} key={nav.to || index} />})}
         </List>
+        <UserInfo />
       </Drawer>
     </>
   )

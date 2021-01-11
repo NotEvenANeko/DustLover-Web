@@ -123,7 +123,7 @@ const Home = () => {
 
   return (
     <div className={classes.homePage}>
-      <h1>DustLover_的主页</h1>
+      <h1>猫猫的主页</h1>
       <p>粗制滥造的web呜呜呜</p>
       <p>我菜爆了</p>
       <p>当前时间:{time}</p>

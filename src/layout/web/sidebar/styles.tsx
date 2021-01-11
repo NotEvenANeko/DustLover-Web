@@ -8,6 +8,9 @@ export const useStyles = makeStyles((theme: Theme) =>
       width: drawerWidth,
       flexShrink: 0,
       whiteSpace: 'nowrap',
+      display: 'flex',
+      flexDirection: 'column',
+      paddingBottom: '5px'
     },
     webSidebarOpen: {
       width: drawerWidth,
@@ -24,5 +27,8 @@ export const useStyles = makeStyles((theme: Theme) =>
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       })
+    },
+    sidebarList: {
+      flexGrow: 1
     }
   }))

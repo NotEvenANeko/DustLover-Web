@@ -12,7 +12,7 @@ export default [
     to: '/'
   }, {
     icon: <InfoOutlined />,
-    text: '关于DustLover',
+    text: '关于猫猫',
     to: '/about'
   }, {
     icon: <HelpOutlined />,
