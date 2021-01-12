@@ -17,6 +17,7 @@ const verifyList1 = [
 
 const verifyList2 = [
   { regex: /\/account/, required: 'put' },
+  { regex: /\question/, required: 'get' },
   { regex: /\/avatar/, required: 'push, delete'},
   { regex: /\/discuss/, required: 'post, delete'}
 ]

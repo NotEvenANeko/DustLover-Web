@@ -54,7 +54,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
 }) => {
 
   const [data, setData] = React.useState<ReturnData>([])
-  const [loading, setLoading] = React.useState(false)
+  const [loading, setLoading] = React.useState(true)
   const [pagination, setPagination] = React.useState<PaginationState>({
     on: false,
     current: 1,
@@ -92,7 +92,6 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
               current: requestParams.page,
               pageSize: requestParams.pageSize
             })
-            withLoading && setLoading(false)
           }
           setData(res.rows)
           setCount(count)
@@ -100,6 +99,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
         if(!res.count) {
           setData(res)
         }
+        withLoading && setLoading(false)
       })
       .catch(err => {
         !!bus && bus.emit('unknownError')

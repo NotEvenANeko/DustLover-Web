@@ -1,20 +1,46 @@
 import React from 'react'
-import {} from '@material-ui/core'
+import { CircularProgress } from '@material-ui/core'
 
 import QuestionCard from '@/components/questioncard'
 
+import useFetch from '@/hooks/useFetch'
+
 import { useStyles } from './styles'
+
+interface QuestionItem {
+  answer: LooseObj | null,
+  content: string,
+  createdAt: string,
+  id: number
+}
 
 const Question = (props: LooseObj) => {
 
   const classes = useStyles()
 
+  const {
+    data,
+    loading,
+    onFetch,
+    pagination
+  } = useFetch({
+    requestURL: '/question',
+    withLoading: true,
+    withPagination: true
+  })
+
+  console.log(loading)
+
   return (
     <div className={classes.root}>
-      <QuestionCard id={1} status={false} content="123" time="2021-1-3" />
-      <QuestionCard id={2} status={true} content="123" time="2021-1-3" />
-      <QuestionCard id={3} status={false} content="123" time="2021-1-3" />
-      <QuestionCard id={4} status={true} content="123" time="2021-1-3" />
+      {!!loading ? 
+        <div className={classes.loadingIcon}>
+          <CircularProgress />
+          <p>Loading...</p>
+        </div>
+      : data.length > 0 && data.map((item: QuestionItem, index: number) => {
+        return <QuestionCard key={index} id={item.id} content={item.content} time={item.createdAt.split(' ')[0]} status={item.answer !== null} />
+      })}
     </div>
   )
 }
