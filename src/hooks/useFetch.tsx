@@ -9,13 +9,143 @@ interface FetchParams {
   queryParams?: LooseObj,
   withLoading: boolean,
   fetchDependence?: any[],
-  pagination: boolean
+  withPagination: boolean,
+  bus?: any
 }
 
-const useFetch = (args: FetchParams) => {
+interface ListData {
+  count: number,
+  rows: LooseObj[]
+}
+
+interface PaginationState {
+  on: boolean,
+  current: number,
+  pageSize: number,
+  total: number
+}
+
+interface ReturnPagination extends PaginationState {
+  onChange: Function
+}
+
+type Data = ListData | LooseObj
+type ReturnData = LooseObj | LooseObj[]
+
+interface ReturnObj {
+  data: ReturnData,
+  loading: boolean,
+  count: number,
+  pagination: ReturnPagination,
+  onFetch: Function
+}
+
+/**
+ * 
+ * @param args 
+ */
+const useFetch: (args: FetchParams) => ReturnObj = ({
+  requestURL = '',
+  withLoading = true,
+  withPagination = false,
+  queryParams,
+  fetchDependence,
+  bus
+}) => {
+
+  const [data, setData] = React.useState<ReturnData>([])
+  const [loading, setLoading] = React.useState(false)
+  const [pagination, setPagination] = React.useState<PaginationState>({
+    on: false,
+    current: 1,
+    pageSize: 10,
+    total: 0
+  })
+  const [count, setCount] = React.useState(0)
 
   const location = useLocation()
   const history = useHistory()
 
-  
+  const fetchData = (params?: LooseObj) => {
+    let requestParams = {
+      ...queryParams, ...params,
+      page: 0, pageSize: 0
+    }
+
+    if(withPagination) {
+      requestParams.page = pagination.current
+      requestParams.pageSize = pagination.pageSize
+    }
+
+    axios
+      .get(requestURL, { params: requestParams })
+      .then((res: Data) => {
+        if(!!res.count && res.count > 0) {
+          if(res.count > requestParams.pageSize) {
+            const totalPage = Math.ceil(res.count / requestParams.pageSize)
+            if(totalPage < requestParams.page) return fetchData({ page: totalPage })
+            setPagination({
+              on: true,
+              total: res.count,
+              current: requestParams.page,
+              pageSize: requestParams.pageSize
+            })
+            withLoading && setLoading(false)
+          }
+          setData(res.rows)
+          setCount(count)
+        }
+        if(!res.count) {
+          setData(res)
+        }
+      })
+      .catch(err => {
+        !!bus && bus.emit('unknownError')
+        withLoading && setLoading(false)
+      })
+  }
+
+  const fetchWithLoading = (params?: LooseObj) => {
+    withLoading && setLoading(true)
+    fetchData(params)
+  }
+
+  React.useEffect(() => {
+    if(!fetchDependence || fetchDependence?.length === 0) {
+      fetchWithLoading()
+    }
+  }, [])
+
+  React.useEffect(() => {
+    if(!!fetchDependence && fetchDependence?.length > 0) {
+      const params = decodeQuery(location.search)
+      fetchWithLoading(params)
+    }
+  }, fetchDependence || [])
+
+  const handlePageChange = React.useCallback((page: number) => {
+    const search = location.search.includes('page=') ?
+      location.search.replace(/(page=)(\d+)/, `$1${page}`) :
+      `?page=${page}`
+    const nextURL = location.pathname + search
+    history.push(nextURL)
+  }, [queryParams, location.pathname])
+
+  const onFetch = React.useCallback((params: LooseObj) => {
+    withLoading && setLoading(true)
+    fetchData(params)
+  }, [queryParams])
+
+  return {
+    data,
+    pagination: {
+      ...pagination,
+      onChange: handlePageChange
+    },
+    count,
+    loading,
+    onFetch
+  }
 }
+
+export default useFetch

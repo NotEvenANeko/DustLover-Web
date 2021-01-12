@@ -84,6 +84,14 @@ const SnackBarCustom = (props: LooseObj) => {
     })
   })
 
+  useListener('unknownError', () => {
+    setToDefault()
+    setOpen({
+      ...open,
+      unknownError: true
+    })
+  })
+
   const handleSnackBarClose = (prop: keyof SnackBarState) => (event?: React.SyntheticEvent, reason?: string) => {
     if(reason === 'clickaway') return
     setOpen({

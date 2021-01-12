@@ -56,7 +56,7 @@ export const compileMarkdown = (mdText: string) => {
   })
 }
 
-export const decodeQuery = (url: string): any => {
+export const decodeQuery = (url: string) => {
   
   const params: LooseObj = {}
   const paramsStr = url.replace(/\.*\?/, '')
