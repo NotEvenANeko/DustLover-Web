@@ -14,7 +14,10 @@ if(!dev) {
   storeEnhancers = compose(composeWithDevTools(applyMiddleware(thunk)))
 }
 
-const configureStore = (initialState: any = []) => {
+const configureStore = (initialState: any = {
+  user: {},
+  tag: {}
+}) => {
   const store = createStore(rootReducers, initialState, storeEnhancers)
   return store
 }

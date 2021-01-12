@@ -78,7 +78,7 @@ const UserRegister = (props: LooseObj) => {
         inputRef={register({
           required: 'Need E-Mail',
           pattern: {
-            value: /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,8})$/,
+            value: /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,8})$/,
             message: 'Wrong E-Mail Format'
           }
         })}
@@ -140,7 +140,7 @@ const UserRegister = (props: LooseObj) => {
         helperText={errors.rePassword?.message}
       />
       <Button type="submit" color="primary" variant="contained">注册</Button>
-      <p>已有账号?<a onClick={() => {props.history.push('/login')}} className={classes.superLink}>登录</a></p>
+      <p>已有账号?<span onClick={() => {props.history.push('/login')}} className={classes.superLink}>登录</span></p>
     </form>
   )
 

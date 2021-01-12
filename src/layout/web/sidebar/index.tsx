@@ -6,11 +6,9 @@ import ListItemLink from './ListItemLink'
 import UserInfo from './userInfo'
 
 import { useStyles } from './styles'
-import { useLocation } from 'react-router-dom'
 
 const WebSideBar = (props: LooseObj) => {
 
-  const location = useLocation()
   const classes = useStyles()
   const [open, setOpen] = React.useState(false)
 

@@ -1,7 +1,7 @@
 import marked from 'marked'
 import xss, { whiteList } from 'xss'
 
-import { getLocalStorage, getSessionStorage, saveLocalStorage } from './storage'
+import { getLocalStorage, getSessionStorage } from './storage'
 
 const colorList = [
   'magenta',

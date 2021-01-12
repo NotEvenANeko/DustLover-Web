@@ -1,16 +1,10 @@
 import * as Types from '../types'
-import { Dispatch } from 'redux'
 
 import axios from '@/utils/axios'
-import useBus from '@/hooks/useBus'
 
 const userLoginAction = (params: any): Types.SFAPayload<Types.USER_LOGIN, any> => ({
   type: Types.USER_LOGIN,
   payload: params
-})
-
-const userRegisterAction = (params: any): Types.SFA<Types.USER_REGISTER> => ({
-  type: Types.USER_REGISTER
 })
 
 const userLogoutAction = (): Types.SFA<Types.USER_LOGOUT> => ({
