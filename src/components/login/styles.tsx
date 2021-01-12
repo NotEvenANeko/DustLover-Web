@@ -11,5 +11,11 @@ export const useStyles = makeStyles((theme: Theme) =>
     loginInput: {
       minWidth: '100px',
       margin: theme.spacing(2)
+    },
+    superLink: {
+      color: '#4848d4',
+      '&:hover': {
+        cursor: 'pointer'
+      }
     }
   }))

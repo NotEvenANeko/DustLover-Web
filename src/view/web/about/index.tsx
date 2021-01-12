@@ -33,7 +33,7 @@ const AboutMe = (props: LooseObj) => {
 
   const [editMode, setEditMode] = React.useState(false)
 
-  const { register, errors, reset, handleSubmit, getValues } = useForm<FormState>()
+  const { register, errors, reset, handleSubmit } = useForm<FormState>()
 
   const onCancel = () => {
     setEditMode(false)

@@ -140,7 +140,7 @@ const UserRegister = (props: LooseObj) => {
         helperText={errors.rePassword?.message}
       />
       <Button type="submit" color="primary" variant="contained">注册</Button>
-      <p>已有账号?<a onClick={() => {props.history.push('/login')}} style={{ color: '#50c0e0' }}>登录</a></p>
+      <p>已有账号?<a onClick={() => {props.history.push('/login')}} className={classes.superLink}>登录</a></p>
     </form>
   )
 

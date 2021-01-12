@@ -4,6 +4,7 @@ import HomePage from '@/view/web/home'
 import UserLogin from '@/components/login'
 import UserRegister from '@/components/register'
 import AboutMe from '@/view/web/about'
+import Question from '@/view/web/questionlist'
 
 const WebRouter: RouterObj = {
   path: '/',
@@ -14,6 +15,7 @@ const WebRouter: RouterObj = {
     { path: 'login', component: UserLogin },
     { path: 'register', component: UserRegister },
     { path: 'about', component: AboutMe },
+    { path: 'question', component: Question },
     { path: '*', component: PageNotFound }
   ]
 }

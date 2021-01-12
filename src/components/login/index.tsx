@@ -86,7 +86,7 @@ const UserLogin = (props: LooseObj) => {
         }}
       />
       <Button type="submit" color="primary" variant="contained">登录</Button>
-      <p>还没有账号?<a onClick={() => {props.history.push('/register')}} style={{ color: '#50c0e0' }}>现在注册</a></p>
+      <p>还没有账号?<a onClick={() => {props.history.push('/register')}} className={classes.superLink}>现在注册</a></p>
     </form>
   )
 
