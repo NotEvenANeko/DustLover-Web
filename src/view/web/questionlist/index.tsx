@@ -29,8 +29,6 @@ const Question = (props: LooseObj) => {
     withPagination: true
   })
 
-  console.log(loading)
-
   return (
     <div className={classes.root}>
       {!!loading ? 
