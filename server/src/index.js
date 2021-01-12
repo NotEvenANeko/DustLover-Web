@@ -8,6 +8,7 @@ const routerLoader = require('./routers')
 const { sequelize } = require('./models')
 const authHandler = require('./middleware/authHandle')
 const errorHandler = require('./middleware/errorHandle')
+const ArticleController = require('./controllers/article')
 
 const app = new Koa()
 
@@ -33,6 +34,7 @@ app.listen(6060, () => {
   sequelize
     .sync({ force: false })
     .then(() => {
+      ArticleController.initAboutPage()
       console.log('Server listening on localhost:6060')
     })
     .catch(err => {

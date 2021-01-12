@@ -57,7 +57,7 @@ const checkAuth = ctx => {
  */
 module.exports = async (ctx, next) => {
 
-  const roleList = checkAuth(ctx)
+  const roleList = []//checkAuth(ctx)
 
   if(roleList.length >= 1) {
     //console.log(await checkAccessToken(ctx, roleList))

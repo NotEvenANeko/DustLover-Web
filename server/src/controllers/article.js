@@ -2,6 +2,9 @@ const Joi = require('joi')
 const Koa = require('koa')
 const { Op } = require('sequelize')
 const fs = require('fs')
+const { v4: uuid } = require('uuid')
+
+const { ABOUTME } = require('../config')
 
 const {
   article: ArticleModel,
@@ -14,14 +17,38 @@ const {
 const { uploadPath, findOrCreateFilePath } = require('../utils/file')
 
 class ArticleController {
-  static async initData() {
-    const res = await ArticleModel.findOne({ where: { id: -1 } })
+
+  static async initAboutPage() {
+    const res = await ArticleModel.findOne({ where: { title: ABOUTME } })
     if(!res) {
-      ArticleModel.create({
-        id: -1,
-        title: 'data init',
-        content: 'data init'
+      await ArticleModel.create({
+        title: ABOUTME,
+        content: 'This is the initial page of AboutMe'
       })
+    }
+  }
+
+  static async getAboutPage(ctx) {
+    const res = await ArticleModel.findOne({ where: { title: ABOUTME } })
+    ctx.body = res
+  }
+
+  static async updateAboutPage(ctx) {
+    const checkRule = Joi.object({
+      content: Joi.string().required()
+    })
+    const validator = checkRule.validate({
+      ...ctx.request.body
+    })
+
+    if(validator) {
+
+      const { content } = ctx.request.body
+      await ArticleModel.update({ content }, { where: { title: ABOUTME } })
+      ctx.status = 204
+
+    } else {
+      ctx.throw(403)
     }
   }
 
@@ -101,6 +128,9 @@ class ArticleController {
         order: [[CommentModel, 'createdAt', 'DESC']],
         row: true
       })
+      if(data.title === ABOUTME) {
+        ctx.throw(403)
+      }
 
       if(type === 1) {
         ArticleModel.update({ viewCnt: ++data.viewCnt }, { where: { id } })
@@ -137,8 +167,8 @@ class ArticleController {
       const categoryFilter = category ? { name: category } : null
       const data = await ArticleModel.findAndCountAll({
         where: {
-          id: {
-            [Op.not]: -1
+          title: {
+            [Op.not]: ABOUTME
           },
           [Op.or]: [
             {

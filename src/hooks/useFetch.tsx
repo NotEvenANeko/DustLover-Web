@@ -67,14 +67,16 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
   const history = useHistory()
 
   const fetchData = (params?: LooseObj) => {
-    let requestParams = {
+    let requestParams: LooseObj = {
       ...queryParams, ...params,
-      page: 0, pageSize: 0
     }
 
     if(withPagination) {
-      requestParams.page = pagination.current
-      requestParams.pageSize = pagination.pageSize
+      requestParams = {
+        ...requestParams,
+        page: pagination.current,
+        pageSize: pagination.pageSize
+      }
     }
 
     axios

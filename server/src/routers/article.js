@@ -4,6 +4,8 @@ const ArticleController = require('../controllers/article')
 const router = new Router({ prefix: '/article' })
 
 router.post('/', ArticleController.create)
+      .get('/about', ArticleController.getAboutPage)
+      .put('/about', ArticleController.updateAboutPage)
       .get('/list', ArticleController.getList)
       .get('/:id', ArticleController.findById)
       .post('/upload', ArticleController.upload)
@@ -11,5 +13,6 @@ router.post('/', ArticleController.create)
       .post('/upload/confirm', ArticleController.uploadConfirm)
       .put('/:id', ArticleController.update)
       .delete('/:id', ArticleController.delete)
+      
 
 module.exports = router

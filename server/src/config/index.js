@@ -13,5 +13,6 @@ module.exports = {
   PREVIEW_LENGTH: {
     QUESTION: 100,
     ANSWER: 50
-  }
+  },
+  ABOUTME: 'd5e40ba1-1924-4931-b0a1-d79dd3458b2e'
 }
