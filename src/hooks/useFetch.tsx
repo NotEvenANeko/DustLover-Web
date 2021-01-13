@@ -1,5 +1,6 @@
 import React from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
+import { AxiosResponse } from 'axios'
 
 import axios from '@/utils/axios'
 import { decodeQuery } from '@/utils'
@@ -20,21 +21,12 @@ interface FetchParams {
   deltaUpd?: boolean,
   loadStep?: number
 }
-
-interface ListData {
-  count: number,
-  rows: LooseObj[]
-}
-
 interface ReturnPagination extends PaginationState {
   onChange: Function
 }
 
-type Data = ListData | LooseObj
-type ReturnData = LooseObj | LooseObj[]
-
 interface ReturnObj {
-  data: ReturnData,
+  data: DataState,
   loading: LoadingState,
   count: number,
   pagination?: ReturnPagination,
@@ -62,7 +54,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
   loadStep
 }) => {
 
-  const [data, setData] = React.useState<ReturnData>([])
+  const [data, setData] = React.useState<DataState>([])
   const [loading, setLoading] = React.useState<LoadingState>({
     primaryLoading: true,
     deltaLoading: false
@@ -105,8 +97,10 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
 
     axios
       .get(requestURL, { params: requestParams })
-      .then((res: Data) => {
-        if(!!res.count && res.count > 0) {
+      .then(({
+        data: res
+      }: AxiosResponse<ReturnRawData>) => {
+        if(res.count && res.count > 0) {
           if(!!requestParams.pageSize && res.count > requestParams.pageSize) {
             const totalPage = Math.ceil(res.count / requestParams.pageSize)
             if(totalPage < requestParams.page) return fetchData({ page: totalPage })
@@ -119,7 +113,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
               })
           }
           if(deltaUpd) {
-            setData([...(data as LooseObj[]), ...res.rows])
+            setData([...(data as ReturnData[]), ...res.rows])
           } else {
             setData(res.rows)
           }
@@ -131,6 +125,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
         setLoadingToFalse()
       })
       .catch(err => {
+        console.log(err)
         !!bus && bus.emit('unknownError')
         setLoadingToFalse()
       })

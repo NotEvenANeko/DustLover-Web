@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, {AxiosResponse} from 'axios'
 
 import config from '@/config.ts'
 import { getAccessToken } from '..'
@@ -21,8 +21,8 @@ service.interceptors.request.use(req => {
 
 })
 
-service.interceptors.response.use(async res => {
-  return res.data
+service.interceptors.response.use(async (res: AxiosResponse<ReturnRawData>) => {
+  return res
 }, async err => {
   if(err.response) {
     const { data, status } = err.response

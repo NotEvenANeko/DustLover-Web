@@ -8,19 +8,14 @@ import QuestionCard from '@/components/questioncard'
 import useFetch from '@/hooks/useFetch'
 
 import { useStyles } from './styles'
-
-interface QuestionItem {
-  answer: LooseObj | null,
-  content: string,
-  createdAt: string,
-  id: number
-}
+import { usePublicStyles } from '@/publicStyles'
 
 const Question = (props: LooseObj) => {
 
   const [loadToEnd, setLoadToEnd] = React.useState(false)
 
   const classes = useStyles()
+  const publicClasses = usePublicStyles()
 
   const {
     data,
@@ -39,9 +34,7 @@ const Question = (props: LooseObj) => {
   React.useEffect(() => {
     if(!inView) return
     if(loading.primaryLoading) return
-    console.log(loadToEnd)
     const res = handleLoadMore()
-    console.log(res)
     if(!loadToEnd) setLoadToEnd(!res)
   }, [inView])
 
@@ -49,22 +42,22 @@ const Question = (props: LooseObj) => {
     <>
       <div className={classes.root}>
         {loading.primaryLoading ? 
-          <div className={`${classes.loadingIcon} ${classes.loadingIconTop}`}>
+          <div className={`${publicClasses.loadingIcon} ${publicClasses.loadingIconTop}`}>
             <CircularProgress />
             <p>Loading...</p>
           </div>
-        : data.length > 0 && data.map((item: QuestionItem, index: number) => {
+        : (data as QuestionReturnData[]).length > 0 && (data as QuestionReturnData[]).map((item, index: number) => {
           return <QuestionCard key={index} id={item.id} content={item.content} time={item.createdAt.split(' ')[0]} status={item.answer !== null} />
         })}
       </div>
       <div ref={ref} className={classes.scrollDownArea}>
         {loadToEnd ? <p>没有更多了呢</p> :
           (!inView ? 
-            <div className={classes.loadingIcon}>
+            <div className={publicClasses.loadingIcon}>
               <p>下滑展示更多</p>
               <ExpandMoreOutlined />
             </div> :
-            <div className={classes.loadingIcon}>
+            <div className={publicClasses.loadingIcon}>
               <CircularProgress />
               <p>Loading...</p>
             </div>)
