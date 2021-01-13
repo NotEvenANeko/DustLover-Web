@@ -24,9 +24,9 @@ class DiscussController {
         {
           model: ReplyModel,
           attributes: ['id', 'content', 'createdAt'],
-          include: [{ model: UserModel, as: 'user', attributes: { exclude: ['updatedAt', 'password'] } }]
+          include: [{ model: UserModel, as: 'user', attributes: ['uid', 'username', 'avatar'] }]
         },
-        { model: UserModel, attributes: { exclude: ['updatedAt', 'password'] }, as: 'user' }
+        { model: UserModel, attributes: ['uid', 'username', 'avatar'], as: 'user' }
       ],
       row: true,
       order: [['createdAt', 'DESC']]
