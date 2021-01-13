@@ -3,7 +3,6 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 export const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     root: {
-      width: `calc(30vw - ${theme.spacing(3)}px)`,
       height: '25vh',
       display: 'flex',
       flexDirection: 'column',
@@ -18,7 +17,10 @@ export const useStyles = makeStyles((theme: Theme) =>
     },
     content: {
       flexGrow: 1,
-      padding: '2vh'
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     statusArea: {
       height: '5vh',

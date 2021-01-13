@@ -26,8 +26,6 @@ const AboutMe = (props: LooseObj) => {
     onFetch
   } = useFetch({
     requestURL: '/article/about',
-    withLoading: true,
-    withPagination: false,
     bus
   })
 
