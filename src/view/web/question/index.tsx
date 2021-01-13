@@ -35,7 +35,7 @@ const QuestionPage = (props: LooseObj) => {
         <p>Loading...</p>
       </div> : 
       <Paper variant="outlined">
-        <div dangerouslySetInnerHTML={{ __html: compileMarkdown(data.content) }} />
+        <div dangerouslySetInnerHTML={{ __html: compileMarkdown((data as QuestionReturnData).content) }} />
       </Paper>
     }
     </div>
