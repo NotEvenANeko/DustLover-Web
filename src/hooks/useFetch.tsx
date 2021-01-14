@@ -31,7 +31,7 @@ interface ReturnPagination extends PaginationState {
 }
 
 type Data = ListData | LooseObj
-type ReturnData = LooseObj | LooseObj[]
+type ReturnData = LooseObj[]
 
 interface ReturnObj {
   data: ReturnData,
@@ -126,7 +126,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
           setCount(res.count)
         }
         if(!res.count) {
-          setData(res)
+          setData([res])
         }
         setLoadingToFalse()
       })
