@@ -5,9 +5,15 @@ import { useSelector } from 'react-redux'
 
 import useFetch from '@/hooks/useFetch'
 import useBus from '@/hooks/useBus'
+
 import { compileMarkdown } from '@/utils'
 import axios from '@/utils/axios'
+
+import LoadingIcon from '@/components/loadingIcon'
+import CustomForm from '@/components/form'
+
 import { CustomState } from '@/redux/types'
+
 import { useStyles } from './styles'
 
 interface FormState {
@@ -23,7 +29,8 @@ const AboutMe = (props: LooseObj) => {
 
   const {
     data,
-    onFetch
+    onFetch,
+    loading
   } = useFetch({
     requestURL: '/article/about',
     bus
@@ -62,17 +69,18 @@ const AboutMe = (props: LooseObj) => {
     <>
       <Card variant="outlined" className={classes.cardRoot}>
         <CardContent>
-          {!editMode ? 
+          {loading.primaryLoading ? <LoadingIcon position="top" /> :
+          (!editMode ? 
             <div 
-              dangerouslySetInnerHTML={{ __html: compileMarkdown((data as LooseObj).content) }} 
+              dangerouslySetInnerHTML={{ __html: compileMarkdown(!!data[0] && data[0].content) }} 
               onDoubleClick={handleDoubleClick} 
             /> :
-            <form noValidate autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={classes.formRoot}>
+            <CustomForm onCancel={onCancel} onSubmit={handleSubmit(onSubmit)}>
               <TextField  
                 error={Boolean(errors.content)}
                 id="aboutme-input"
                 variant="outlined"
-                defaultValue={(data as LooseObj).content}
+                defaultValue={data[0].content}
                 multiline
                 fullWidth
                 name="content"
@@ -81,11 +89,7 @@ const AboutMe = (props: LooseObj) => {
                 })}
                 helperText={errors.content?.message}
               />
-              <div className={classes.btnGru}>
-                <Button color="default" onClick={onCancel}>取消</Button>
-                <Button type="submit" color="primary" variant="contained">提交</Button>
-              </div>
-            </form>
+            </CustomForm>)
           } 
         </CardContent>
       </Card>

@@ -2,16 +2,16 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles'
 
 export const useStyles = makeStyles((theme: Theme) => 
   createStyles({
-    root: {
-      padding: theme.spacing(1),
-      minHeight: '50vh'
-    },
-    text: {
-      minHeight: '20vh',
+    formRoot: {
       display: 'flex',
       flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center'
+      marginTop: theme.spacing(1)
+    },
+    btnGru: {
+      marginTop: '1vh',
+      display: 'flex',
+      flexDirection: 'row-reverse',
+      justifyContent: 'center'
     }
   })
 )

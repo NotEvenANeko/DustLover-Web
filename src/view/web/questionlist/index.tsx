@@ -1,21 +1,20 @@
 import React from 'react'
-import { CircularProgress } from '@material-ui/core'
 import { useInView } from 'react-intersection-observer'
 import { ExpandMoreOutlined } from '@material-ui/icons'
 
-import QuestionCard from '@/components/questioncard'
+import QuestionCard from '@/components/questionCard'
+import LoadingIcon from '@/components/loadingIcon'
 
 import useFetch from '@/hooks/useFetch'
 
 import { useStyles } from './styles'
-import { usePublicStyles } from '@/publicStyles'
+
 
 const Question = (props: LooseObj) => {
 
   const [loadToEnd, setLoadToEnd] = React.useState(false)
 
   const classes = useStyles()
-  const publicClasses = usePublicStyles()
 
   const {
     data,
@@ -42,10 +41,7 @@ const Question = (props: LooseObj) => {
     <>
       <div className={classes.root}>
         {loading.primaryLoading ? 
-          <div className={`${publicClasses.loadingIcon} ${publicClasses.loadingIconTop}`}>
-            <CircularProgress />
-            <p>Loading...</p>
-          </div>
+          <LoadingIcon position="top" />
         : data.length > 0 && data.map((item, index: number) => {
           return <QuestionCard key={index} id={item.id} content={item.content} time={item.createdAt.split(' ')[0]} status={item.answer !== null} />
         })}
@@ -53,14 +49,13 @@ const Question = (props: LooseObj) => {
       <div ref={ref} className={classes.scrollDownArea}>
         {loadToEnd ? <p>没有更多了呢</p> :
           (!inView ? 
-            <div className={publicClasses.loadingIcon}>
-              <p>下滑展示更多</p>
-              <ExpandMoreOutlined />
-            </div> :
-            <div className={publicClasses.loadingIcon}>
-              <CircularProgress />
-              <p>Loading...</p>
-            </div>)
+            <LoadingIcon nested={
+              <>
+                <p>下滑展示更多</p>
+                <ExpandMoreOutlined />
+              </>
+            } /> :
+            <LoadingIcon />)
         }
       </div>
     </>

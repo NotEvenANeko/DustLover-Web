@@ -2,7 +2,7 @@ import React from 'react'
 import { HelpOutlined,
          HomeOutlined,
          InfoOutlined,
-         BuildOutlined,
+         LinkOutlined,
          DescriptionOutlined } from '@material-ui/icons'
 
 export default [
@@ -19,12 +19,12 @@ export default [
     text: '提问箱',
     to: '/question'
   }, {
-    icon: <BuildOutlined />,
-    text: '工具',
-    to: '/utils'
-  }, {
     icon: <DescriptionOutlined />,
     text: '博客',
     to: '/article'
+  }, {
+    icon: <LinkOutlined />,
+    text: '友情链接',
+    to: '/friend'
   }
 ]

@@ -1,43 +1,122 @@
 import React from 'react'
-import { Paper, CircularProgress } from '@material-ui/core'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSelector } from 'react-redux'
+import { Paper, Divider, TextField } from '@material-ui/core'
 
 import useFetch from '@/hooks/useFetch'
 import useBus from '@/hooks/useBus'
 
 import { useStyles } from './styles'
-import { usePublicStyles } from '@/publicStyles'
+
+import { CustomState } from '@/redux/types'
+
+import LoadingIcon from '@/components/loadingIcon'
+import BackButton from '@/components/backBtn'
+import CustomForm from '@/components/form'
 
 import { compileMarkdown } from '@/utils'
+import axios from '@/utils/axios'
 
+interface FormState {
+  content: string
+}
 
 const QuestionPage = (props: LooseObj) => {
 
   const { id } = props.match.params
 
+  const [editMode, setEditMode] = React.useState(false)
+
+  const userInfo = useSelector((state: CustomState) => state.user)
+
+  const { register, handleSubmit, reset, errors, getValues } = useForm<FormState>()
   const bus = useBus()
 
   const classes = useStyles()
-  const publicClasses = usePublicStyles()
+
+  const handleDoubleClick = () => {
+    setEditMode(true)
+  }
 
   const {
     data,
     loading,
+    onFetch,
   } = useFetch({
     requestURL: `/question/${id}`,
     bus
-  })
+  })  
+
+  const onCancel = () => {
+    setEditMode(false)
+    reset()
+  }
+  
+  const onSubmit: SubmitHandler<FormState> = formData => {
+    if(!!data[0] && !!data[0].answer) {
+      axios
+        .put(`/question/answer/${data[0].answer.id}`, {
+          content: formData.content
+        })
+        .then(() => {
+          bus.emit('submitSuccess')
+          onFetch()
+          setEditMode(false)
+        })
+        .catch(() => {
+          bus.emit('submitFailed')
+        })
+    } else {
+      if(!data[0]) return
+      axios.post('/question/answer', {
+        content: formData.content,
+        questionId: data[0].id
+      })
+      .then(() => {
+        bus.emit('submitSuccess')
+        onFetch()
+        setEditMode(false)
+      })
+      .catch(() => {
+        bus.emit('submitFailed')
+      })
+    }
+  }
 
   return (
     <div>
-    {loading.primaryLoading ? 
-      <div className={`${publicClasses.loadingIcon} ${publicClasses.loadingIconTop}`}>
-        <CircularProgress />
-        <p>Loading...</p>
-      </div> : 
-      <Paper variant="outlined">
-        <div dangerouslySetInnerHTML={{ __html: compileMarkdown(data[0].content) }} />
-      </Paper>
-    }
+      <BackButton />
+      {loading.primaryLoading ? 
+        <LoadingIcon position="top" /> : 
+        <Paper variant="outlined" className={classes.root}>
+          <div dangerouslySetInnerHTML={{ __html: compileMarkdown(!!data[0] && data[0].content) }} className={classes.text} />
+          <Divider variant="middle" />
+          {!editMode ? 
+            <div 
+              dangerouslySetInnerHTML={{ __html: !!data[0].answer ? compileMarkdown(data[0].answer.content) : '还没有回答'}} 
+              className={classes.text} 
+              onDoubleClick={handleDoubleClick}
+            /> :
+            <CustomForm onSubmit={handleSubmit(onSubmit)} onCancel={onCancel}>
+              <TextField  
+                error={Boolean(errors.content)}
+                id="answer-input"
+                variant="outlined"
+                defaultValue={!!data[0].answer && data[0].answer.content || ''}
+                multiline
+                fullWidth
+                rows={4}
+                name="content"
+                inputRef={register({
+                  required: 'Need Content',
+                  validate: value => value !== (!!data[0] && !!data[0].answer && data[0].answer.content) || 'Nothing Changes'
+                })}
+                helperText={errors.content?.message}
+              />
+            </CustomForm>
+          }
+        </Paper>
+      }
     </div>
   )
 }

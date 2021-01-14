@@ -79,10 +79,10 @@ class AnswerController {
       id: Joi.number().required(),
       content: Joi.string().required()
     })
-    const validator = Joi.validate({
+    const validator = checkRule.validate({
       id: ctx.params.id,
       ...ctx.request.body
-    }, checkRule)
+    })
 
     if(validator) {
 
