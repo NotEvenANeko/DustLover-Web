@@ -175,7 +175,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
 
   const handleLoadMore = (params: LooseObj) => {
     if(!loadStep) return false
-    if(loadCnt * loadStep > count) return false
+    if(loadCnt * loadStep >= count) return false
     setLoading({
       ...loading,
       deltaLoading: true
