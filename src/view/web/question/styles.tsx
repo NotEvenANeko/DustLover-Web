@@ -12,6 +12,11 @@ export const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center'
+    },
+    toolbar: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      marginLeft: theme.spacing(1)
     }
   })
 )

@@ -13,6 +13,8 @@ interface SnackBarState {
   logoutSuccess: boolean,
   submitSuccess: boolean,
   submitFailed: boolean,
+  deleteSuccess: boolean,
+  deleteFailed: boolean,
   unknownError: boolean
 }
 
@@ -31,12 +33,16 @@ const SnackBarCustom = (props: LooseObj) => {
     logoutSuccess: false,
     submitSuccess: false,
     submitFailed: false,
+    deleteFailed: false,
+    deleteSuccess: false,
     unknownError: false
   })
 
   const setToDefault = () => {
     setOpen({
       loginFailed: false,
+      deleteFailed: false,
+      deleteSuccess: false,
       loginSuccess: false,
       registerFailed: false,
       registerSuccess: false,
@@ -106,6 +112,22 @@ const SnackBarCustom = (props: LooseObj) => {
     })
   })
 
+  useListener('deleteSuccess', () => {
+    setToDefault()
+    setOpen({
+      ...open,
+      deleteSuccess: true
+    })
+  })
+
+  useListener('deleteFailed', () => {
+    setToDefault()
+    setOpen({
+      ...open,
+      deleteFailed: true
+    })
+  })
+
   useListener('unknownError', () => {
     setToDefault()
     setOpen({
@@ -157,6 +179,16 @@ const SnackBarCustom = (props: LooseObj) => {
       <Snackbar open={open.submitFailed} autoHideDuration={5000} onClose={handleSnackBarClose('submitFailed')}>
         <Alert onClose={handleSnackBarClose('submitFailed')} severity="error">
           提交失败
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open.deleteSuccess} autoHideDuration={5000} onClose={handleSnackBarClose('deleteSuccess')}>
+        <Alert onClose={handleSnackBarClose('deleteSuccess')} severity="success">
+          删除成功
+        </Alert>
+      </Snackbar>
+      <Snackbar open={open.deleteFailed} autoHideDuration={5000} onClose={handleSnackBarClose('deleteFailed')}>
+        <Alert onClose={handleSnackBarClose('deleteFailed')} severity="error">
+          删除失败
         </Alert>
       </Snackbar>
       <Snackbar open={open.unknownError} autoHideDuration={5000} onClose={handleSnackBarClose('unknownError')}>

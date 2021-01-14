@@ -1,7 +1,9 @@
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-import { Paper, Divider, TextField } from '@material-ui/core'
+import dayjs from 'dayjs'
+import { Paper, Divider, TextField, IconButton } from '@material-ui/core'
+import { DeleteOutlineOutlined } from '@material-ui/icons'
 
 import useFetch from '@/hooks/useFetch'
 import useBus from '@/hooks/useBus'
@@ -13,6 +15,7 @@ import { CustomState } from '@/redux/types'
 import LoadingIcon from '@/components/loadingIcon'
 import BackButton from '@/components/backBtn'
 import CustomForm from '@/components/form'
+import DeleteButton from '@/components/deleteBtn'
 
 import { compileMarkdown } from '@/utils'
 import axios from '@/utils/axios'
@@ -50,6 +53,17 @@ const QuestionPage = (props: LooseObj) => {
   const onCancel = () => {
     setEditMode(false)
     reset()
+  }
+
+  const handleDelete = () => {
+    axios.delete(`/question/${data[0].id}`)
+         .then(() => {
+           bus.emit('deleteSuccess')
+           window.history.back()
+         })
+         .catch(() => {
+           bus.emit('deleteFailed')
+         })
   }
   
   const onSubmit: SubmitHandler<FormState> = formData => {
@@ -90,6 +104,10 @@ const QuestionPage = (props: LooseObj) => {
         <LoadingIcon position="top" /> : 
         <Paper variant="outlined" className={classes.root}>
           <div dangerouslySetInnerHTML={{ __html: compileMarkdown(!!data[0] && data[0].content) }} className={classes.text} />
+          <div className={classes.toolbar}>
+            <p>{!!data[0] && dayjs(data[0].createdAt).format('YYYY.MM.DD H:m')}</p>
+            <DeleteButton handleDelete={handleDelete} />
+          </div>
           <Divider variant="middle" />
           {!editMode ? 
             <div 
