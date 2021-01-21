@@ -119,7 +119,7 @@ const QuestionPage = (props: LooseObj) => {
                 error={Boolean(errors.content)}
                 id="answer-input"
                 variant="outlined"
-                defaultValue={!!data[0].answer && data[0].answer.content || ''}
+                defaultValue={(!!data[0].answer && data[0].answer.content) || ''}
                 multiline
                 fullWidth
                 rows={4}

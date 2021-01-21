@@ -21,7 +21,7 @@ export default [
   }, {
     icon: <DescriptionOutlined />,
     text: '博客',
-    to: '/article'
+    to: '/blog'
   }, {
     icon: <LinkOutlined />,
     text: '友情链接',

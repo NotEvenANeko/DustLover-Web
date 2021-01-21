@@ -12,6 +12,11 @@ export const useStyles = makeStyles((theme: Theme) =>
       flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'center'
+    },
+    questionAdd: {
+      position: 'absolute',
+      top: '90vh',
+      left: '94vw'
     }
   })
 )

@@ -1,16 +1,26 @@
 import React from 'react'
 import { useInView } from 'react-intersection-observer'
 import { ExpandMoreOutlined } from '@material-ui/icons'
-
-import QuestionCard from '@/components/questionCard'
-import LoadingIcon from '@/components/loadingIcon'
-import AddQuestion from '@/components/addquestion'
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles'
 
 import useFetch from '@/hooks/useFetch'
 
-import { useStyles } from './styles'
+import LoadingIcon from '@/components/loadingIcon'
+import ArticleCard from '@/components/articleCard'
 
-const Question = (props: LooseObj) => {
+const useStyles = makeStyles((theme: Theme) => 
+  createStyles({
+    scrollDownArea: {
+      display: 'flex',
+      height: '15vh',
+      flexDirection: 'column',
+      justifyContent: 'center',
+      alignItems: 'center'
+    }
+  })
+)
+
+const BlogMain = (props: LooseObj) => {
 
   const [loadToEnd, setLoadToEnd] = React.useState(false)
 
@@ -19,18 +29,17 @@ const Question = (props: LooseObj) => {
   const {
     data,
     loading,
-    handleLoadMore,
-    onFetch
+    handleLoadMore
   } = useFetch({
-    requestURL: '/question',
+    requestURL: '/article/list',
     deltaUpd: true,
-    loadStep: 12
+    loadStep: 10
   })
-  
+
   const [ref, inView] = useInView({
     threshold: 1
   })
-  
+
   React.useEffect(() => {
     if(!inView) return
     if(loading.primaryLoading) return
@@ -40,11 +49,19 @@ const Question = (props: LooseObj) => {
 
   return (
     <>
-      <div className={classes.root}>
+      <div>
         {loading.primaryLoading ? 
           <LoadingIcon position="top" />
         : data.length > 0 && data.map((item, index: number) => {
-          return <QuestionCard key={index} id={item.id} content={item.content} time={item.createdAt.split(' ')[0]} status={item.answer !== null} />
+          return <ArticleCard 
+                  key={index} 
+                  id={item.id} 
+                  title={item.title} 
+                  content={item.content} 
+                  time={item.createdAt.split(' ')[0]}
+                  commentCnt={item.commentCnt}
+                  viewCnt={item.viewCnt}
+                />
         })}
       </div>
       <div ref={ref} className={classes.scrollDownArea}>
@@ -59,9 +76,8 @@ const Question = (props: LooseObj) => {
             <LoadingIcon />)
         }
       </div>
-      <AddQuestion className={classes.questionAdd} onFetch={onFetch} />
     </>
   )
 }
 
-export default Question
+export default BlogMain
