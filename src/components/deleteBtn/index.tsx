@@ -4,6 +4,8 @@ import { DeleteOutlineOutlined } from '@material-ui/icons'
 
 interface DeleteButtonProps {
   handleDelete: () => void,
+  size?: 'small'|'medium',
+  fontSize?: 'inherit'|'default'|'small'|'large',
   [prop: string]: any
 }
 
@@ -21,8 +23,8 @@ const DeleteButton = (props: DeleteButtonProps) => {
 
   return (
     <>
-      <IconButton onClick={handleClick}>
-        <DeleteOutlineOutlined />
+      <IconButton onClick={handleClick} size={props.size}>
+        <DeleteOutlineOutlined fontSize={props.fontSize} />
       </IconButton>
       <Menu
         id="delete-menu"

@@ -8,6 +8,7 @@ export const useStyles = makeStyles((theme: Theme) =>
       marginTop: theme.spacing(1)
     },
     btnGru: {
+      alignSelf: 'flex-end',
       marginTop: '1vh',
       display: 'flex',
       flexDirection: 'row-reverse',
