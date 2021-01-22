@@ -22,9 +22,20 @@ interface DiscussProps {
   [prop: string]: any
 }
 
+const useStyles = makeStyles((theme: Theme) => 
+  createStyles({
+    count: {
+      marginBottom: theme.spacing(1),
+      marginTop: '10vh',
+      fontSize: '0.9rem'
+    }
+  })
+)
+
 const Discuss = (props: DiscussProps) => {
 
   const bus = useBus()
+  const classes = useStyles()
   const userInfo = useSelector((state: CustomState) => state.user)
   const history = useHistory()
   const { register, errors, handleSubmit, reset } = useForm<{ content: string }>()
@@ -45,7 +56,7 @@ const Discuss = (props: DiscussProps) => {
   return (
     <div>
       <div>
-        <span>{calcComment(props.commentList)}条评论</span>
+        <p className={classes.count}>{calcComment(props.commentList)}条评论</p>
         <Divider variant="middle" />
       </div>
 
