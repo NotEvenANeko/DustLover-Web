@@ -7,6 +7,7 @@ import AboutMe from '@/view/web/about'
 import Question from '@/view/web/questionlist'
 import QuestionPage from '@/view/web/question'
 import BlogMain from '@/view/web/blog/list'
+import ArticlePage from '@/view/web/blog/article'
 
 const WebRouter: RouterObj = {
   path: '/',
@@ -20,6 +21,7 @@ const WebRouter: RouterObj = {
     { path: 'question', component: Question },
     { path: 'question/:id', component: QuestionPage },
     { path: 'blog', component: BlogMain },
+    { path: 'article/:id', component: ArticlePage },
     { path: '*', component: PageNotFound }
   ]
 }
