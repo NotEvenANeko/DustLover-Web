@@ -8,6 +8,8 @@ import useFetch from '@/hooks/useFetch'
 import LoadingIcon from '@/components/loadingIcon'
 import ArticleCard from '@/components/articleCard'
 
+import { calcComment } from '@/utils'
+
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     scrollDownArea: {
@@ -53,18 +55,19 @@ const BlogMain = (props: LooseObj) => {
         {loading.primaryLoading ? 
           <LoadingIcon position="top" />
         : data.length > 0 && data.map((item, index: number) => {
+          console.log(item)
           return <ArticleCard 
                   key={index} 
                   id={item.id} 
                   title={item.title} 
                   content={item.content} 
                   time={item.createdAt.split(' ')[0]}
-                  commentCnt={item.commentCnt}
+                  commentCnt={calcComment(item.comments)}
                   viewCnt={item.viewCnt}
                 />
         })}
       </div>
-      <div ref={ref} className={classes.scrollDownArea}>
+      {!loading.primaryLoading && <div ref={ref} className={classes.scrollDownArea}>
         {loadToEnd ? <p>没有更多了呢</p> :
           (!inView ? 
             <LoadingIcon nested={
@@ -75,7 +78,7 @@ const BlogMain = (props: LooseObj) => {
             } /> :
             <LoadingIcon />)
         }
-      </div>
+      </div>}
     </>
   )
 }

@@ -47,7 +47,7 @@ const Question = (props: LooseObj) => {
           return <QuestionCard key={index} id={item.id} content={item.content} time={item.createdAt.split(' ')[0]} status={item.answer !== null} />
         })}
       </div>
-      <div ref={ref} className={classes.scrollDownArea}>
+      {!loading.primaryLoading && <div ref={ref} className={classes.scrollDownArea}>
         {loadToEnd ? <p>没有更多了呢</p> :
           (!inView ? 
             <LoadingIcon nested={
@@ -58,7 +58,7 @@ const Question = (props: LooseObj) => {
             } /> :
             <LoadingIcon />)
         }
-      </div>
+      </div>}
       <AddQuestion className={classes.questionAdd} onFetch={onFetch} />
     </>
   )
