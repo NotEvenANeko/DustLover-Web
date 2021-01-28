@@ -125,7 +125,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
           }
           setCount(res.count)
         }
-        if(!res.count) {
+        if(!res.count && res.count !== 0) {
           setData([res])
         }
         setLoadingToFalse()

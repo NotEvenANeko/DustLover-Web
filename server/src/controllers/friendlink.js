@@ -28,15 +28,16 @@ class FriendLinkController {
     const checkRule = Joi.object({
       link: Joi.string(),
       avatarLink: Joi.string(),
-      describe: Joi.string().required()
+      describe: Joi.string(),
+      title: Joi.string().required()
     })
     const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 
-      const { link, describe, avatarLink } = ctx.request.body
+      const { link, describe, avatarLink, title } = ctx.request.body
       if(await FriendLinkController.findByLink(link))
-        await FriendLinkModel.create({ link, describe, avatarLink })
+        await FriendLinkModel.create({ link, describe, avatarLink, title })
 
       ctx.status = 204
 
@@ -57,15 +58,16 @@ class FriendLinkController {
       link: Joi.string(),
       describe: Joi.string(),
       linkId: Joi.number(),
-      avatarLink: Joi.string()
+      avatarLink: Joi.string(),
+      title: Joi.string()
     })
     const validator = checkRule.validate(ctx.request.body)
 
     if(validator) {
 
-      const { link, describe, linkId, avatarLink } = ctx.request.body
+      const { link, describe, linkId, avatarLink, title } = ctx.request.body
       if(await FriendLinkController.findById(linkId))
-        await FriendLinkModel.update({ link, describe, avatarLink }, { where: { id: linkId } })
+        await FriendLinkModel.update({ link, describe, avatarLink, title }, { where: { id: linkId } })
 
       ctx.status = 204
 
@@ -88,13 +90,7 @@ class FriendLinkController {
     const validator = checkRule.validate(ctx.query)
 
     if(validator) {
-      const { keyword = '' } = ctx.query
       const data = await FriendLinkModel.findAndCountAll({
-        where: {
-          describe: {
-            [Op.like]: `%${keyword}`
-          }
-        },
         order: [['createdAt', 'DESC']],
         row: true,
         distinct: true

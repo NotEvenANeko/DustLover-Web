@@ -8,6 +8,7 @@ import Question from '@/view/web/questionlist'
 import QuestionPage from '@/view/web/question'
 import BlogMain from '@/view/web/blog/list'
 import ArticlePage from '@/view/web/blog/article'
+import FriendLink from '@/view/web/friend'
 
 const WebRouter: RouterObj = {
   path: '/',
@@ -22,6 +23,7 @@ const WebRouter: RouterObj = {
     { path: 'question/:id', component: QuestionPage },
     { path: 'blog', component: BlogMain },
     { path: 'article/:id', component: ArticlePage },
+    { path: 'friend', component: FriendLink },
     { path: '*', component: PageNotFound }
   ]
 }

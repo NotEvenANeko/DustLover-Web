@@ -1,7 +1,9 @@
+const dev = true
+
 module.exports = {
   DATABASE: {
     DIALECT: 'sqlite',
-    PATH: __dirname + '/../../db.sqlite3'
+    PATH: __dirname + (dev ? '/../../dev.sqlite3' : '/../../db.sqlite3')
   },
   SALT_ROUND: 10,
   TOKEN: {

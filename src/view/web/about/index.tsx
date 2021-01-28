@@ -62,8 +62,10 @@ const AboutMe = (props: LooseObj) => {
          })
   }
 
-  if((window as any).MathJax && (window as any).MathJax.typeset)
-    (window as any).MathJax.typeset()
+  React.useEffect(() => {
+    if((window as any).MathJax && (window as any).MathJax.typeset)
+      (window as any).MathJax.typeset()
+  })
 
   return (
     <>

@@ -87,6 +87,11 @@ const ArticlePage = (props: LooseObj) => {
     setArticle({ ...article, comments: list })
   }
 
+  React.useEffect(() => {
+    if((window as any).MathJax && (window as any).MathJax.typeset)
+      (window as any).MathJax.typeset()
+  })
+  
   return (
     <div>
       <BackButton />

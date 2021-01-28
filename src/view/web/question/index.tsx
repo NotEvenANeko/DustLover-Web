@@ -95,6 +95,11 @@ const QuestionPage = (props: LooseObj) => {
       })
     }
   }
+  
+  React.useEffect(() => {
+    if((window as any).MathJax && (window as any).MathJax.typeset)
+      (window as any).MathJax.typeset()
+  })
 
   return (
     <div>
