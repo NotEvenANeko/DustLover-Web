@@ -6,7 +6,7 @@ import { useStyles } from './styles'
 const Home = () => {
 
   const classes = useStyles()
-  const formatStr = 'YYYY年MM月DD日 HH时mm分ss秒'
+  const formatStr = 'YYYY.MM.DD HH:mm:ss'
 
   const [time, setTime] = useState<string>(dayjs().format(formatStr))
   const [os, setOS] = useState<string | null>(null)
@@ -124,11 +124,13 @@ const Home = () => {
   return (
     <div className={classes.homePage}>
       <h1>猫猫的主页</h1>
-      <p>粗制滥造的web呜呜呜</p>
-      <p>我菜爆了</p>
+      <p>V2.0开发中……</p>
       <p>当前时间:{time}</p>
       <p>你的系统是:{os}</p>
       <p>你的浏览器是:{client}</p>
+      <a href="https://github.com/Cattttttttt">
+        <img src="https://img.shields.io/badge/Github-FragileNeko-ff69b4?logo=github" alt="alternate_text" />
+      </a>
     </div>
   )
 }
