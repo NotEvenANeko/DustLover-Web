@@ -73,7 +73,7 @@ const ArticlePage = (props: LooseObj) => {
     const fetchData = (id: any) => {
       axios.get(`/article/${id}`)
            .then((res: LooseObj) => {
-             console.log(res)
+             //console.log(res)
              setArticle((res as ArticleState))
            })
            .catch(() => {

@@ -23,6 +23,13 @@ interface FormState {
   content: string
 }
 
+interface QuestionData {
+  id: number
+  content: string
+  answer: LooseObj
+  createdAt: string
+}
+
 const QuestionPage = (props: LooseObj) => {
 
   const { id } = props.match.params
@@ -44,7 +51,7 @@ const QuestionPage = (props: LooseObj) => {
     data,
     loading,
     onFetch,
-  } = useFetch({
+  } = useFetch<QuestionData>({
     requestURL: `/question/${id}`,
     bus
   })  

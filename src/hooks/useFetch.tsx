@@ -12,29 +12,20 @@ interface PaginationState {
 }
 
 interface FetchParams {
-  requestURL: string,
-  queryParams?: LooseObj,
-  fetchDependence?: any[],
-  bus?: any,
-  initPaginationState?: PaginationState,
-  deltaUpd?: boolean,
+  requestURL: string
+  queryParams?: LooseObj
+  fetchDependence?: any[]
+  bus?: any
+  deltaUpd?: boolean
   loadStep?: number
-}
-
-interface ListData {
-  count: number,
-  rows: LooseObj[]
 }
 
 interface ReturnPagination extends PaginationState {
   onChange: Function
 }
 
-type Data = ListData | LooseObj
-type ReturnData = LooseObj[]
-
-interface ReturnObj {
-  data: ReturnData,
+interface ReturnObj<T> {
+  data: T[],
   loading: LoadingState,
   count: number,
   pagination?: ReturnPagination,
@@ -42,27 +33,29 @@ interface ReturnObj {
   handleLoadMore: Function
 }
 
+interface ResponseData<T> {
+  count: number
+  rows: T[]
+}
+
 interface LoadingState {
   primaryLoading: boolean,
   deltaLoading: boolean
 }
 
-const useFetch: (args: FetchParams) => ReturnObj = ({
-  requestURL = '',
-  initPaginationState = {
+function useFetch<T>(options: FetchParams = {
+  requestURL: '',
+  queryParams: {},
+  fetchDependence: [],
+  deltaUpd: false,
+}, initPaginationState: PaginationState = {
     on: false,
     current: 1,
     pageSize: 10,
     total: 0
-  },
-  queryParams,
-  fetchDependence = [],
-  bus,
-  deltaUpd = false,
-  loadStep
-}) => {
+}): ReturnObj<T> {
 
-  const [data, setData] = React.useState<ReturnData>([])
+  const [data, setData] = React.useState<T[]>([])
   const [loading, setLoading] = React.useState<LoadingState>({
     primaryLoading: true,
     deltaLoading: false
@@ -83,14 +76,14 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
 
   const fetchData = (params?: LooseObj) => {
     let requestParams: LooseObj = {
-      ...queryParams, ...params,
+      ...options.queryParams, ...params,
     }
 
-    if(deltaUpd) {
+    if(options.deltaUpd) {
       requestParams = {
         ...requestParams,
         page: loadCnt + 1,
-        pageSize: loadStep || 10
+        pageSize: options.loadStep || 10
       }
       setLoadCnt(loadCnt + 1)
     }
@@ -104,13 +97,13 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
     }
 
     axios
-      .get(requestURL, { params: requestParams })
-      .then((res: Data) => {
-        if(!!res.count && res.count > 0) {
+      .get<ResponseData<T>&T>(options.requestURL, { params: requestParams })
+      .then(({ data: res }) => {
+        if(!!res && res.count > 0) {
           if(!!requestParams.pageSize && res.count > requestParams.pageSize) {
             const totalPage = Math.ceil(res.count / requestParams.pageSize)
             if(totalPage < requestParams.page) return fetchData({ page: totalPage })
-            if(!deltaUpd)
+            if(!options.deltaUpd)
               setPagination({
                 on: true,
                 total: res.count,
@@ -118,8 +111,8 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
                 pageSize: requestParams.pageSize
               })
           }
-          if(deltaUpd) {
-            setData([...(data as LooseObj[]), ...res.rows])
+          if(options.deltaUpd) {
+            setData([...data, ...res.rows])
           } else {
             setData(res.rows)
           }
@@ -131,7 +124,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
         setLoadingToFalse()
       })
       .catch(err => {
-        !!bus && bus.emit('unknownError')
+        !!options.bus && options.bus.emit('unknownError')
         setLoadingToFalse()
       })
   }
@@ -145,17 +138,17 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
   }
 
   React.useEffect(() => {
-    if(!fetchDependence || fetchDependence?.length === 0) {
+    if(!options.fetchDependence || options.fetchDependence?.length === 0) {
       fetchWithLoading()
     }
   }, [])
 
   React.useEffect(() => {
-    if(!!fetchDependence && fetchDependence?.length > 0) {
+    if(!!options.fetchDependence && options.fetchDependence?.length > 0) {
       const params = decodeQuery(location.search)
       fetchWithLoading(params)
     }
-  }, fetchDependence)
+  }, options.fetchDependence)
 
   const handlePageChange = React.useCallback((page: number) => {
     const search = location.search.includes('page=') ?
@@ -163,7 +156,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
       `?page=${page}`
     const nextURL = location.pathname + search
     history.push(nextURL)
-  }, [queryParams, location.pathname])
+  }, [options.queryParams, location.pathname])
 
   const onFetch = React.useCallback((params: LooseObj) => {
     setLoading({
@@ -171,11 +164,11 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
       primaryLoading: true
     })
     fetchData(params)
-  }, [queryParams])
+  }, [options.queryParams])
 
   const handleLoadMore = (params: LooseObj) => {
-    if(!loadStep) return false
-    if(loadCnt * loadStep >= count) return false
+    if(!options.loadStep) return false
+    if(loadCnt * options.loadStep >= count) return false
     setLoading({
       ...loading,
       deltaLoading: true
@@ -183,7 +176,7 @@ const useFetch: (args: FetchParams) => ReturnObj = ({
     fetchData({
       ...params,
       page: loadCnt + 1,
-      pageSize: loadStep
+      pageSize: options.loadStep
     })
     setLoadCnt(loadCnt + 1)
     return true

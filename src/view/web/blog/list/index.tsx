@@ -20,6 +20,15 @@ interface SelectedState {
   categories: string[]
 }
 
+interface ArticleData {
+  id: number
+  title: string
+  content: string
+  createdAt: string
+  comments: LooseObj[]
+  viewCnt: number
+}
+
 const useStyles = makeStyles((theme: Theme) => 
   createStyles({
     scrollDownArea: {
@@ -51,7 +60,7 @@ const BlogMain = (props: LooseObj) => {
     data,
     loading,
     handleLoadMore
-  } = useFetch({
+  } = useFetch<ArticleData>({
     requestURL: '/article/list',
     deltaUpd: true,
     loadStep: 10

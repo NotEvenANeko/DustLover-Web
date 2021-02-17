@@ -10,6 +10,13 @@ import useFetch from '@/hooks/useFetch'
 
 import { useStyles } from './styles'
 
+interface QuestionListData {
+  id: number
+  content: string
+  answer: LooseObj
+  createdAt: string
+}
+
 const Question = (props: LooseObj) => {
 
   const [loadToEnd, setLoadToEnd] = React.useState(false)
@@ -21,7 +28,7 @@ const Question = (props: LooseObj) => {
     loading,
     handleLoadMore,
     onFetch
-  } = useFetch({
+  } = useFetch<QuestionListData>({
     requestURL: '/question',
     deltaUpd: true,
     loadStep: 12

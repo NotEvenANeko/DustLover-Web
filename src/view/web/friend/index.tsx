@@ -5,16 +5,24 @@ import LoadingIcon from '@/components/loadingIcon'
 
 import useFetch from '@/hooks/useFetch'
 
+interface FriendLinkData {
+  id: number
+  title: string
+  describe: string
+  avatarLink: string
+  link: string
+}
+
 const FriendLink = (props: LooseObj) => {
 
   const {
     data,
     loading
-  } = useFetch({
+  } = useFetch<FriendLinkData>({
     requestURL: '/friend'
   })
 
-  console.log(data)
+  //console.log(data)
 
   return (
     <>
@@ -28,7 +36,7 @@ const FriendLink = (props: LooseObj) => {
               avatarLink={item.avatarLink}
               link={item.link}
             />
-          ) : <p>没有东西呢……</p>}
+          ) : <p>没有东西呢...</p>}
         </>
       )}
     </>

@@ -20,6 +20,10 @@ interface FormState {
   content: string
 }
 
+interface AboutData {
+  content: string
+}
+
 const AboutMe = (props: LooseObj) => {
 
   const classes = useStyles()
@@ -31,7 +35,7 @@ const AboutMe = (props: LooseObj) => {
     data,
     onFetch,
     loading
-  } = useFetch({
+  } = useFetch<AboutData>({
     requestURL: '/article/about',
     bus
   })
