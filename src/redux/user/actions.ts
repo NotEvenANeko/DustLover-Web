@@ -14,9 +14,9 @@ const userLogoutAction = (): Types.SFA<Types.USER_LOGOUT> => ({
 export const userLogin = (params: any, bus: any): Types.CustomDispatch => {
   return (dispatch) => 
     axios.post('/account/login', params).then(res => {
-      dispatch(userLoginAction(res))
+      dispatch(userLoginAction(res.data))
       bus.emit('loginSuccess')
-      return res
+      return res.data
     })
     .catch(err => {
       bus.emit('loginFailed')
@@ -28,7 +28,7 @@ export const userRegister = (params: any, bus: any): Types.CustomDispatch => {
   return (dispatch) => {
     axios.post('/account/register', params).then(res => {
       bus.emit('registerSuccess')
-      return res
+      return res.data
     })
     .catch(err => {
       bus.emit('registerFailed')

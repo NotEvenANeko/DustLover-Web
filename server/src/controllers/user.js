@@ -37,12 +37,12 @@ class UserController {
 
     if(validator) {
 
-      const { page = 1, pageSize = 10 } = ctx.query
+      const { page = 0, pageSize = 10 } = ctx.query
       const data = await UserModel.findAndCountAll({
-        attributes: ['uid', 'username', 'createdAt', 'updatedAt', 'role'],
-        offset: pageSize * (page - 1),
+        attributes: ['uid', 'username', 'createdAt', 'role', 'eMail'],
+        offset: pageSize * page,
         limit: pageSize,
-        order: [['createdAt', 'DESC']],
+        order: [['uid', 'ASC']],
         row: true
       })
 

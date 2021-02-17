@@ -7,6 +7,7 @@ import { useStyles } from './styles'
 
 interface BackButtonProps {
   onBack?: string,
+  noLabel?: boolean
   [prop: string]: any,
 }
 
@@ -21,7 +22,7 @@ const BackButton = (props: BackButtonProps) => {
       variant="text"
       startIcon={<ArrowBackOutlined />}
       onClick={() => {props.onBack ? history.push(props.onBack) : history.goBack()}}
-    >返回</Button>
+    >{props.noLabel ? '' : '返回'}</Button>
   )
 }
 

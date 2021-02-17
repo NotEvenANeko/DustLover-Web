@@ -22,7 +22,7 @@ service.interceptors.request.use(req => {
 })
 
 service.interceptors.response.use(async res => {
-  return res.data
+  return res
 }, async err => {
   if(err.response) {
     const { data, status } = err.response
@@ -39,7 +39,7 @@ service.interceptors.response.use(async res => {
             //console.log(111)
             const res = await service(err.config)
             //console.log(res)
-            return Promise.resolve(res.data || res || 'OK')
+            return Promise.resolve(res || res || 'OK')
           }
           catch (err) {
             return Promise.reject(err)

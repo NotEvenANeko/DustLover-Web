@@ -65,7 +65,7 @@ const AdminSideBar = (props: LooseObj) => {
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         <List className={`${classes.sidebarList}`}>
-          <BackButton onBack="/admin" />
+          <BackButton onBack="/" noLabel={true} />
           {NavList.map((nav, index) => {
           return <ListItemLink {...nav} key={nav.to || index} />})}
         </List>

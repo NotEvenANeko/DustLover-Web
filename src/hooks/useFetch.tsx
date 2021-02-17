@@ -21,14 +21,14 @@ interface FetchParams {
 }
 
 interface ReturnPagination extends PaginationState {
-  onChange: Function
+  onChange: (page: number) => void
 }
 
 interface ReturnObj<T> {
   data: T[],
   loading: LoadingState,
   count: number,
-  pagination?: ReturnPagination,
+  pagination: ReturnPagination,
   onFetch: Function,
   handleLoadMore: Function
 }
@@ -50,7 +50,7 @@ function useFetch<T>(options: FetchParams = {
   deltaUpd: false,
 }, initPaginationState: PaginationState = {
     on: false,
-    current: 1,
+    current: 0,
     pageSize: 10,
     total: 0
 }): ReturnObj<T> {
@@ -75,9 +75,7 @@ function useFetch<T>(options: FetchParams = {
   const history = useHistory()
 
   const fetchData = (params?: LooseObj) => {
-    let requestParams: LooseObj = {
-      ...options.queryParams, ...params,
-    }
+    let requestParams: LooseObj = {}
 
     if(options.deltaUpd) {
       requestParams = {
@@ -96,10 +94,16 @@ function useFetch<T>(options: FetchParams = {
       }
     }
 
+    requestParams = {
+      ...requestParams,
+      ...options.queryParams, ...params
+    }
+
     axios
       .get<ResponseData<T>&T>(options.requestURL, { params: requestParams })
-      .then(({ data: res }) => {
-        if(!!res && res.count > 0) {
+      .then(( resData ) => {
+        const res = resData.data
+        if(!!res && !!res.count && res.count > 0) {
           if(!!requestParams.pageSize && res.count > requestParams.pageSize) {
             const totalPage = Math.ceil(res.count / requestParams.pageSize)
             if(totalPage < requestParams.page) return fetchData({ page: totalPage })
@@ -146,6 +150,7 @@ function useFetch<T>(options: FetchParams = {
   React.useEffect(() => {
     if(!!options.fetchDependence && options.fetchDependence?.length > 0) {
       const params = decodeQuery(location.search)
+      console.error(params)
       fetchWithLoading(params)
     }
   }, options.fetchDependence)

@@ -178,22 +178,35 @@ const useStyles = makeStyles((theme: Theme) =>
     },
   }))
 
+interface PaginationProps {
+  onChange: (event: unknown, page: number) => void
+  rowsPerPage: number
+  page: number
+  count: number
+}
+
 interface EnhancedTableProps<T> {
   rows: T[]
   defaultOrderBy: keyof T
   selectedBy: keyof T
   labels: Array<keyof T>
   headCells: HeadCell<T>[]
+  pagination?: PaginationProps
 }
 
 function EnhancedTable<T>(props: EnhancedTableProps<T>) {
-  const { rows, defaultOrderBy, selectedBy, headCells, labels } = props
+  const { rows, defaultOrderBy, selectedBy, headCells, labels, pagination = {
+    rowsPerPage: 10,
+    page: 0,
+    count: 0,
+    onChange: (event: unknown, page: number) => {
+      
+    }
+  } } = props
   const classes = useStyles()
   const [order, setOrder] = React.useState<Order>('asc')
   const [orderBy, setOrderBy] = React.useState<keyof T>(defaultOrderBy)
   const [selected, setSelected] = React.useState<T[keyof T][]>([])
-  const [page, setPage] = React.useState(0)
-  const [rowsPerPage, setRowsPerPage] = React.useState(10)
 
   function handleRequestSort(event: React.MouseEvent<unknown>, property: keyof T) {
     const isAsc = orderBy === property && order === 'asc'
@@ -230,13 +243,9 @@ function EnhancedTable<T>(props: EnhancedTableProps<T>) {
     setSelected(newSelected)
   }
 
-  const handlePageChange = (event: unknown, newPage: number) => {
-    setPage(newPage)
-  }
-
   const isSelected = (name: T[keyof T]) => selected.indexOf(name) !== -1
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage)
+  const emptyRows = pagination.rowsPerPage - rows.length
 
   const generateCell = (isFirst: boolean, value: T[keyof T], labelId?: string) => {
     if(isFirst) {
@@ -277,7 +286,6 @@ function EnhancedTable<T>(props: EnhancedTableProps<T>) {
             />
             <TableBody>
               {stableSort(rows, getComparator(order, orderBy))
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
                   const isItemSelected = isSelected(row[selectedBy])
                   const labelId = `enhanced-table-checkbox-${index}`
@@ -312,10 +320,11 @@ function EnhancedTable<T>(props: EnhancedTableProps<T>) {
         </TableContainer>
         <TablePagination 
           component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onChangePage={handlePageChange}
+          rowsPerPageOptions={[10]}
+          count={pagination.count}
+          rowsPerPage={pagination.rowsPerPage}
+          page={typeof pagination.page === 'string' ? parseInt(pagination.page) : pagination.page}
+          onChangePage={pagination.onChange}
         />
       </Paper>
     </div>
