@@ -66,7 +66,7 @@ const WebUserInfo = (props: LooseObj) => {
         keepMounted
         open={Boolean(anchorEl)}
         onClose={handleClose}>
-          <MenuItem onClick={handleUserInfo}>资料</MenuItem>
+          {/*<MenuItem onClick={handleUserInfo}>资料</MenuItem>*/}
           {userRole < 1 && <MenuItem onClick={handleAdmin}>后台管理</MenuItem>}
           <MenuItem onClick={handleLogout}>登出</MenuItem>
       </Menu>

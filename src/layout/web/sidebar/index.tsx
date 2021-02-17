@@ -2,7 +2,7 @@ import React from 'react'
 import { Drawer, List } from '@material-ui/core'
 
 import NavList from './navList'
-import ListItemLink from './ListItemLink'
+import ListItemLink from '@/components/ListItemLink'
 import UserInfo from './userInfo'
 
 import { useStyles } from './styles'

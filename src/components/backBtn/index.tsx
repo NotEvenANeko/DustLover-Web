@@ -5,7 +5,12 @@ import { useHistory } from 'react-router-dom'
 
 import { useStyles } from './styles'
 
-const BackButton = (props: LooseObj) => {
+interface BackButtonProps {
+  onBack?: string,
+  [prop: string]: any,
+}
+
+const BackButton = (props: BackButtonProps) => {
 
   const history = useHistory()
   const classes = useStyles()
@@ -15,7 +20,7 @@ const BackButton = (props: LooseObj) => {
       className={classes.root}
       variant="text"
       startIcon={<ArrowBackOutlined />}
-      onClick={() => {history.goBack()}}
+      onClick={() => {props.onBack ? history.push(props.onBack) : history.goBack()}}
     >返回</Button>
   )
 }
