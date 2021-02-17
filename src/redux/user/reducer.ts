@@ -19,8 +19,10 @@ const userInfo2 = getLocalStorage('userInfo')
 if(userInfo1) defaultState = { ...defaultState, ...userInfo1 }
 if(userInfo2) defaultState = { ...defaultState, ...userInfo2 }
 
+console.log(defaultState)
 const UserReducer = (state: Types.UserInfo = defaultState, action: Types.SFAPayload<Types.EmptyAction, Types.LoginPayload>) => {
   const { type, payload } = action
+  console.log(action, state)
   switch(type) {
     case Types.USER_LOGIN:
       const { username, userId, userRole, accessToken, refreshToken } = payload
