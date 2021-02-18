@@ -1,7 +1,8 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import dayjs from 'dayjs'
 
-import EnhancedTable from '@/components/table'
+import { ColumnsType, NekoTable } from '@/components/table'
 
 import useFetch from '@/hooks/useFetch'
 
@@ -12,6 +13,32 @@ interface UserData {
   createdAt: string
   eMail: string
 }
+
+const columns: ColumnsType = [
+  {
+    title: 'UID',
+    dataIndex: 'uid',
+    key: 'uid',
+  }, {
+    title: 'User Name',
+    dataIndex: 'username',
+    key: 'username',
+  }, {
+    title: 'User Role',
+    dataIndex: 'role',
+    key: 'role',
+    render: role => role <= 1 ? 'Admin' : 'Guest'
+  }, {
+    title: 'User E-Mail',
+    dataIndex: 'eMail',
+    key: 'email'
+  }, {
+    title: 'User Registered Time',
+    dataIndex: 'createdAt',
+    key: 'register-time',
+    render: createdAt => dayjs(createdAt).format('YYYY.MM.DD')
+  },
+]
 
 const AdminUserManager = (props: LooseObj) => {
 
@@ -37,23 +64,16 @@ const AdminUserManager = (props: LooseObj) => {
   }
 
   return (
-    <EnhancedTable<UserData>
-      rows={data.map(item => ({ ...item, role: item.role <= 1 ? 'Admin' : 'Guest' }))}
-      defaultOrderBy="uid"
-      selectedBy="uid"
-      labels={['username', 'role', 'eMail', 'createdAt']}
-      headCells={[
-        { id: 'uid', disablePadding: true, label: 'User ID', numeric: true },
-        { id: 'username', disablePadding: false, label: 'User Name', numeric: false },
-        { id: 'role', disablePadding: false, label: 'User Role', numeric: false },
-        { id: 'eMail', disablePadding: false, label: 'User E-Mail Address', numeric: false },
-        { id: 'createdAt', disablePadding: false, label: 'User Registered Time', numeric: false },
-      ]}
+    <NekoTable
+      dataSource={data}
+      title="User"
+      columns={columns}
       pagination={{
-        rowsPerPage: pagination.pageSize,
         page: pagination.current,
-        count: count,
-        onChange: handlePageChange
+        onChangePage: handlePageChange,
+        rowsPerPage: pagination.pageSize,
+        count: pagination.total,
+        hideOnSinglePage: true,
       }}
     />
   )

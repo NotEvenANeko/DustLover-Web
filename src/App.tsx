@@ -8,6 +8,8 @@ import './App.css'
 
 import axios from '@/utils/axios'
 
+const isDebug = process.env.NODE_ENV === 'development'
+
 const App = (props: LooseObj) => {
   const userRole = useSelector((state: CustomState) => state.user.userRole)
 
@@ -18,7 +20,7 @@ const App = (props: LooseObj) => {
       let newContextPath = item.path ? `${routeContextPath}/${item.path}` : routeContextPath
       newContextPath = newContextPath.replace(/\/+/g, '/')
 
-      if (newContextPath.includes('admin') && userRole > 1) {
+      if (!isDebug && newContextPath.includes('admin') && userRole > 1) {
         item = {
           ...item,
           component: () => <Redirect to='/' />,
