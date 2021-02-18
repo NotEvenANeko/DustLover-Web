@@ -21,6 +21,11 @@ const DeleteButton = (props: DeleteButtonProps) => {
     setAnchorEl(null)
   }
 
+  const handleDelete = () => {
+    props.handleDelete()
+    handleClose()
+  }
+
   return (
     <>
       <IconButton onClick={handleClick} size={props.size}>
@@ -33,7 +38,7 @@ const DeleteButton = (props: DeleteButtonProps) => {
         open={Boolean(anchorE1)}
         onClose={handleClose}
       >
-        <MenuItem onClick={props.handleDelete}>确认删除</MenuItem>
+        <MenuItem onClick={handleDelete}>确认删除</MenuItem>
         <MenuItem onClick={handleClose}>取消</MenuItem>
       </Menu>
     </>

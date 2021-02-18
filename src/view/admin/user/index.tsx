@@ -3,8 +3,12 @@ import { useLocation } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 import { ColumnsType, NekoTable } from '@/components/table'
+import DeleteButton from '@/components/deleteBtn'
+
+import axios from '@/utils/axios'
 
 import useFetch from '@/hooks/useFetch'
+import useBus from '@/hooks/useBus'
 
 interface UserData {
   uid: number
@@ -14,40 +18,29 @@ interface UserData {
   eMail: string
 }
 
-const columns: ColumnsType = [
-  {
-    title: 'UID',
-    dataIndex: 'uid',
-    key: 'uid',
-  }, {
-    title: 'User Name',
-    dataIndex: 'username',
-    key: 'username',
-  }, {
-    title: 'User Role',
-    dataIndex: 'role',
-    key: 'role',
-    render: role => role <= 1 ? 'Admin' : 'Guest'
-  }, {
-    title: 'User E-Mail',
-    dataIndex: 'eMail',
-    key: 'email'
-  }, {
-    title: 'User Registered Time',
-    dataIndex: 'createdAt',
-    key: 'register-time',
-    render: createdAt => dayjs(createdAt).format('YYYY.MM.DD')
-  },
-]
-
 const AdminUserManager = (props: LooseObj) => {
 
   const location = useLocation()
+  const bus = useBus()
+
+  const handleUserDelete = (uid: number) => () => {
+    axios.delete(`/account/${uid}`)
+         .then(() => {
+            bus.emit('deleteSuccess')
+            onFetch()
+         })
+         .catch(err => {
+           if(err !== 'Err') {
+            bus.emit('deleteSuccess')
+            onFetch()
+          }
+         })
+  }
 
   const {
     data,
     pagination,
-    count
+    onFetch
   } = useFetch<UserData>({
     requestURL: '/account/user',
     queryParams: { pageSize: 10 },
@@ -59,6 +52,37 @@ const AdminUserManager = (props: LooseObj) => {
     total: 0
   })
 
+  const columns: ColumnsType = [
+    {
+      title: 'UID',
+      dataIndex: 'uid',
+      key: 'uid',
+    }, {
+      title: 'User Name',
+      dataIndex: 'username',
+      key: 'username',
+    }, {
+      title: 'User Role',
+      dataIndex: 'role',
+      key: 'role',
+      render: role => role <= 1 ? 'Admin' : 'Guest'
+    }, {
+      title: 'User E-Mail',
+      dataIndex: 'eMail',
+      key: 'email'
+    }, {
+      title: 'User Registered Time',
+      dataIndex: 'createdAt',
+      key: 'register-time',
+      render: createdAt => dayjs(createdAt).format('YYYY.MM.DD')
+    }, {
+      title: 'Actions',
+      dataIndex: 'uid',
+      key: 'actions',
+      render: uid => <DeleteButton handleDelete={handleUserDelete(uid)} size="small" />
+    }
+  ]
+  
   const handlePageChange = (event: unknown, page: number) => {
     pagination.onChange(page)
   }
