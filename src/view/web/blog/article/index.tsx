@@ -71,10 +71,10 @@ const ArticlePage = (props: LooseObj) => {
 
   React.useEffect(() => {
     const fetchData = (id: any) => {
-      axios.get(`/article/${id}`)
-           .then((res: LooseObj) => {
+      axios.get<ArticleState>(`/article/${id}`)
+           .then(res => {
              //console.log(res)
-             setArticle((res as ArticleState))
+             setArticle(res.data)
            })
            .catch(() => {
              bus.emit('unknownError')

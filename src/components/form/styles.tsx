@@ -10,6 +10,7 @@ export const useStyles = makeStyles((theme: Theme) =>
     btnGru: {
       alignSelf: 'flex-end',
       marginTop: '1vh',
+      marginBottom: theme.spacing(1),
       display: 'flex',
       flexDirection: 'row-reverse',
       justifyContent: 'center'

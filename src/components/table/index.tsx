@@ -51,6 +51,7 @@ interface CustomTableProps<RecordType> {
   columns?: ColumnsType<RecordType>
   pagination?: false | TablePaginationOptions
   title?: string
+  tools?: JSX.Element
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -101,7 +102,7 @@ function CustomTable<RecordType extends object = any>(props: CustomTableProps<Re
 
   const classes = useStyles()
   const toolbarClasses = useToolbarStyles()
-  const { dataSource, columns, pagination = false, title } = props
+  const { dataSource, columns, pagination = false, title, tools } = props
 
   const headCells = columns?.map((column): HeadCell => ({
     label: column.title,
@@ -118,6 +119,7 @@ function CustomTable<RecordType extends object = any>(props: CustomTableProps<Re
           <Typography className={toolbarClasses.title} variant="h6" id="tableTitle" component="div">
             {title || ''}
           </Typography>
+          {!!tools && tools}
         </Toolbar>
         <TableContainer>
           <Table className={classes.table}>

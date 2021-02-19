@@ -18,6 +18,24 @@ class FriendLinkController {
   }
 
   /**
+   * 
+   * @param {Koa.Context} ctx 
+   */
+  static async getFriendLink(ctx) {
+    const checkRule = Joi.object({
+      id: Joi.number().required()
+    })
+    const validator = checkRule.validate(ctx.params)
+    if(validator) {
+      const { id } = ctx.params
+      const data = await FriendLinkModel.findOne({ where: { id } })
+      ctx.body = data
+    } else {
+      ctx.throw(403)
+    }
+  }
+
+  /**
    *
    *
    * @static

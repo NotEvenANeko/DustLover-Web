@@ -6,12 +6,13 @@ import { useStyles } from './styles'
 interface CustomFormProps {
   onCancel: () => void,
   onSubmit: (event: React.FormEvent<HTMLFormElement>) => void,
-  children: JSX.Element,
+  children: JSX.Element[] | JSX.Element,
   noCancel?: boolean,
   noSubmit?: boolean,
   submitText?: string,
   cancelText?: string,
   size?: 'large'|'medium'|'small',
+  className?: string
   [prop: string]: any
 }
 
@@ -20,7 +21,7 @@ const CustomForm = (props: CustomFormProps) => {
   const classes = useStyles()
 
   return (
-    <form noValidate autoComplete="off" className={classes.formRoot} onSubmit={props.onSubmit}>
+    <form noValidate autoComplete="off" className={`${classes.formRoot} ${props.className || ''}`} onSubmit={props.onSubmit}>
       {props.children}
       <div className={classes.btnGru}>
         {!props.noCancel && <Button size={props.size} color="default" onClick={props.onCancel}>{props.cancelText || '取消'}</Button>}
