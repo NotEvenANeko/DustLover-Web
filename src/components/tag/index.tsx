@@ -149,7 +149,7 @@ const ArticleTags = React.forwardRef((props: ArticleTagProps, ref?: React.Ref<Lo
     <div className={classes.root}>
       {!noDivider && <Divider orientation="vertical" flexItem />}
       <div>
-        <LocalOfferOutlined className={classes.icon} />
+        {(DataSet.tag.list.length > 0 || addTag) && <LocalOfferOutlined className={classes.icon} />}
         {generateTSX(DataSet.tag.list, 'tag')}
         {addTag && (
           inputNew.tag.visible ? (
@@ -168,7 +168,7 @@ const ArticleTags = React.forwardRef((props: ArticleTagProps, ref?: React.Ref<Lo
       </div>
       {!noDivider && <Divider orientation="vertical" flexItem />}
       <div>
-        <FolderOutlined className={classes.icon} />
+        {(DataSet.tag.list.length > 0 || addTag) && <FolderOutlined className={classes.icon} />}
           {generateTSX(DataSet.category.list, 'category')}
           {addTag && (
             inputNew.category.visible ? (

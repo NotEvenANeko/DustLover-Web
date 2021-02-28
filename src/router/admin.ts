@@ -4,6 +4,7 @@ import AdminUserManager from '@/view/admin/user'
 import AdminFriendLinkManager from '@/view/admin/friend/list'
 import AdminFriendLinkEdit from '@/view/admin/friend/edit'
 import AdminFriendLinkAdd from '@/view/admin/friend/add'
+import AdminArticleManager from '@/view/admin/blog/list'
 import PageNotFound from '@/components/404'
 
 const AdminRouter: RouterObj = {
@@ -16,6 +17,7 @@ const AdminRouter: RouterObj = {
     { path: '/friend', component: AdminFriendLinkManager },
     { path: '/friend/add', component: AdminFriendLinkAdd },
     { path: '/friend/:id', component: AdminFriendLinkEdit },
+    { path: '/blog', component: AdminArticleManager },
     { path: '*', component: PageNotFound },
   ]
 }
