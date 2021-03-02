@@ -101,7 +101,7 @@ const ArticlePage = (props: LooseObj) => {
           <div className={classes.status}>
             <p style={{ fontSize: '1rem' }}>
               <CreateOutlined className={classes.icon} />
-              {`Posted on ${dayjs(article.createdAt).format('YYYY.MM.DD H:m')}`}
+              {`Posted on ${dayjs(article.createdAt).format('YYYY.MM.DD HH:mm')}`}
             </p>
             <ArticleTags tagList={article.tags} categoryList={article.categories} noDivider />
             <VisibilityOutlined className={classes.icon} />
